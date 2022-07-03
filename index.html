@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">        
+        
+        <link rel="stylesheet" href="css/styles.css">
+        <title>SKG</title>
+    </head>
+
+    <body>
+        <div id="skg">
+            <div class="toptext">
+                SKG
+            </div>
+            <div class="job-container">
+                <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
+                    <div :class="[starterjob.name, starterjob.jobIsActive ? starterActive:starterInactive]" :ref="starterjob.name" @click="starterButton($event, jobindex)">
+                        <p>{{ starterjob.name }}</p>
+                        <p>{{ starterjob.level }}</p>
+                    </div>
+                </template>
+                <div class="divbreak"></div>
+                <template v-for="(midjob, jobindex) in midJobs" :key="jobindex">  
+                    <div :class="[midjob.name, midjob.jobIsActive ? starterActive:starterInactive]" :ref="midjob.name" @click="midButton($event, jobindex)">
+                        <p>{{ midjob.name }}</p>
+                        <p>{{ midjob.level }}</p>
+                    </div>
+                </template>
+            </div>
+            <div class="skill-container">
+                <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellindex">
+                    <div class="skill-info-container" :ref="currentJob.name">
+                        <p>{{abilities.name}}</p>
+                    </div>
+                    <div class="divbreak"></div>
+                </template>
+            </div>
+        </div>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="js/adventurer.js"></script>
+    <script src="js/main.js"></script>
+
+</html>
+
