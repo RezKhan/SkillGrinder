@@ -12,9 +12,9 @@ var SkillGrinder = new Vue({
         currentJob: adventurer.job[0].name,
     },
     
-    //components: {
-        // progressbar,
-    //},
+    components: {
+        progressbar,
+    },
     
     methods: {
         starterButton($event, index) {
