@@ -1,7 +1,12 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 #skg {
     width: 700px;
     margin: auto;
 }
+
 .toptext {
     text-align: center;
 }

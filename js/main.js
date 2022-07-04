@@ -1,3 +1,5 @@
+import { progressbar } from './js/progressbar.vue';
+
 var SkillGrinder = new Vue({
     el: "#skg",
     data: {
@@ -9,7 +11,11 @@ var SkillGrinder = new Vue({
 
         currentJob: adventurer.job[0].name,
     },
-
+    
+    //components: {
+        // progressbar,
+    //},
+    
     methods: {
         starterButton($event, index) {
             for (i=0;i<adventurer.job.length;i++) {
@@ -39,10 +45,3 @@ var SkillGrinder = new Vue({
         },
     },
 }) 
-
-
-Vue.component('starter-jobs', {
-    template: `
-
-    `
-})
