@@ -32,11 +32,10 @@
                 <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellindex">
                     <div class="skill-info-container" :ref="currentJob.name">
                         <p>{{abilities.name}}</p>
-                        <progressbar />
                     </div>
                     <div class="divbreak"></div>
                 </template>
-                
+                <progressbar />
             </div>
         </div>
     </body>
