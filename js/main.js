@@ -1,4 +1,4 @@
-import { progressbar } from './js/progressbar.vue';
+import { progressbar } from './progressbar.vue';
 
 var SkillGrinder = new Vue({
     el: "#skg",
