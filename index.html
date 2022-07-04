@@ -32,6 +32,7 @@
                 <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellindex">
                     <div class="skill-info-container" :ref="currentJob.name">
                         <p>{{abilities.name}}</p>
+                        <progressbar />
                     </div>
                     <div class="divbreak"></div>
                 </template>
@@ -41,6 +42,7 @@
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
     <script src="./js/adventurer.js"></script>
     <script src="./js/main.js"></script>
 </html>

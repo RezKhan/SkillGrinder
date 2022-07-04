@@ -14,7 +14,7 @@ var jobs = [
         rank: "F",
         experience: 0,
         tier:0,
-        jobIsActive: false,
+        jobIsActive: true,
         abilities: [],
     },
     {
@@ -52,7 +52,8 @@ var jobs = [
         experience: 0,
         tier:1,
         unlocked: false,
-        jobIsActive: false
+        jobIsActive: false,
+        abilities: [],
     },
     {
         name: "Summoner",
@@ -61,7 +62,8 @@ var jobs = [
         experience: 0,
         tier: 1,
         unlocked: false,
-        jobIsActive: false
+        jobIsActive: false,
+        abilities: [],
     },
 ];
 
