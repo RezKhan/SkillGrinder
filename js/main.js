@@ -30,6 +30,7 @@ var SkillGrinder = new Vue({
             // console.log(this.activeJob.abilities[0].name);
         }
     },
+    
     computed: {
         starterJobs: function() {
             return this.adventurer.job.filter((job) => (job.tier == 0));

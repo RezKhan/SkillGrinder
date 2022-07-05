@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: 'progressbar'
+    progressbar
 };
 </script>
 
