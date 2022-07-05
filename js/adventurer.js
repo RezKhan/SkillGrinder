@@ -75,17 +75,19 @@ jobs.forEach(element => {
 var joblessAbility = [
     {
         name: "Punch",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: true,
         castTime: 3.5,
         experience: 0
     }, 
     {
         name: "Kick",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 3,
+        unlocked: false,
         castTime: 4,
         experience: 0
     },
@@ -98,17 +100,19 @@ joblessAbility.forEach(element => {
 var warriorAbility = [
     {
         name: "Slash",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: true,
         castTime: 3.5,
         experience: 0
     }, 
     {
         name: "Strike",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: false,
         castTime: 4,
         experience: 0
     },
@@ -120,22 +124,23 @@ warriorAbility.forEach(element => {
 
 var rogueAbility = [
     {
-        name: "Stab",
+        name: "Kick",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: true,
         castTime: 3.5,
         experience: 0
-    }, 
+    },
     {
-        name: "Kick",
+        name: "Stab",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: false,
         castTime: 4,
         experience: 0
-    },
-];
+    }, ];
 
 rogueAbility.forEach(element => {
     adventurer.job[2].abilities.push(element)
@@ -144,17 +149,19 @@ rogueAbility.forEach(element => {
 var mageAbility = [
     {
         name: "Fireball",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: true,
         castTime: 3.5,
         experience: 0
     }, 
     {
         name: "Icile",
+        active: false,
         coefficient: 0.1,
         rank: "F",
-        unlockLevel: 1,
+        unlocked: false,
         castTime: 4,
         experience: 0
     },

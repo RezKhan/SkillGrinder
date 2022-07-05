@@ -29,19 +29,22 @@
                 </template>
             </div>
             <div class="skill-container">
-                <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellindex">
-                    <div :class="['skill-info-container', abilities.name]" :ref="abilities.name">
+                <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellindex" v-if="abilities.unlocked==true">
+                    <div :class="[abilities.name, 'skill-info-container']" :ref="abilities.name" @click="setActiveSkill(spellindex)">
                         <p>{{abilities.name}}</p>
-                        <progressbar></progressbar>
+                        <div :class="[abilities.name, 'progress-bar']">
+                            <div :class="[activeJob.name, 'progress-inner']" :style="{'width': abilityWidth + '%'}">
+                                <span>{{adventurer.speed * abilities.castTime}}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="divbreak"></div>
                 </template>
-                <progressbar />
             </div>
         </div>
     </body>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.0"></script>
     <script src="https://unpkg.com/http-vue-loader"></script>
     <script src="./js/adventurer.js"></script>
     <script src="./js/main.js"></script>
