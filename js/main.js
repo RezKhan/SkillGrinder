@@ -1,3 +1,5 @@
+
+
 var SkillGrinder = new Vue({
     el: "#skg",
     data: {
@@ -27,22 +29,33 @@ var SkillGrinder = new Vue({
             tempJob[0].abilities[spellIndex].active = !tempJob[0].abilities[spellIndex].active;
 
             activeAbility = tempJob[0].abilities[spellIndex];
-
-            let fillerthing = setInterval(() => {
-                if (this.abilityWidth < 100 && activeAbility.active == true) {
-                    tickrate=(activeAbility.castTime*1000)/this.tick;
-                    this.abilityWidth += (100/tickrate);
+            let i = 0;                                              // if we directly set castProgress it results in a really long string of numbers
+            fakeXP = 0;
+            console.log(Object.keys(this._data));
+            let fillerthing = setInterval(() => {            
+                if (this.abilityWidth < 99 && activeAbility.active == true) {
+                    tickrate=(activeAbility.castTime*1000)/this.tick;                   
+                    this.abilityWidth += (100/tickrate);            // The progress bar itself
                     this.abilityWidth.toFixed(2);
-                    console.log(this.abilityWidth.toFixed(2));
-                    console.log(activeAbility.active);
+                    i += (this.tick/1000);                          // Fucky bit to deal with the text counter or it's ugly
+                    activeAbility.castProgress = i.toFixed(2); 
+                    // console.log(activeAbility.active);
                 } 
                 else {
                     this.abilityWidth = 0;
-                    console.log(activeAbility.active);
+                    activeAbility.castProgress = 0;
+                    i = 0;
+                    fakeXP++;
+                    // console.log(activeAbility.active);
+                    console.log(activeAbility.name, activeAbility.level, "xp", fakeXP);
                 };
                 if (activeAbility.active == false)
                     clearInterval(fillerthing);
-
+                if (fakeXP >= 10) {
+                    activeAbility.level++;
+                    fakeXP = 0;
+                    checkUnlocks();
+                }
             }, this.tick);
         },
     },

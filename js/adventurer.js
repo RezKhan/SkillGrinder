@@ -79,8 +79,10 @@ var joblessAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: true,
-        castTime: 3.5,
-        experience: 0
+        castTime: 1.5,
+        castProgress: 0.0,
+        level: 1,
+        experience: 0,
     }, 
     {
         name: "Kick",
@@ -88,7 +90,8 @@ var joblessAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: false,
-        castTime: 4,
+        castTime: 2,
+        level: 1,
         experience: 0
     },
 ];
@@ -104,7 +107,8 @@ var warriorAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: true,
-        castTime: 3.5,
+        castTime: 2,
+        level: 1,
         experience: 0
     }, 
     {
@@ -113,7 +117,8 @@ var warriorAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: false,
-        castTime: 4,
+        castTime: 3,
+        level: 1,
         experience: 0
     },
 ];
@@ -129,7 +134,8 @@ var rogueAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: true,
-        castTime: 3.5,
+        castTime: 2,
+        level: 1,
         experience: 0
     },
     {
@@ -139,6 +145,7 @@ var rogueAbility = [
         rank: "F",
         unlocked: false,
         castTime: 4,
+        level: 1,
         experience: 0
     }, ];
 
@@ -154,15 +161,17 @@ var mageAbility = [
         rank: "F",
         unlocked: true,
         castTime: 3.5,
+        level: 1,
         experience: 0
     }, 
     {
-        name: "Icile",
+        name: "Icicle",
         active: false,
         coefficient: 0.1,
         rank: "F",
         unlocked: false,
         castTime: 4,
+        level: 1,
         experience: 0
     },
 ];
