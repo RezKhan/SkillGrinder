@@ -1,37 +1,43 @@
+const { createApp } = Vue
 
+createApp({
+    data() {
+        return {
+            adventurer: adventurer,
+            tick: 20,
+            abilityWidth: 0,
 
-var SkillGrinder = new Vue({
-    el: "#skg",
-    data: {
-        adventurer: adventurer,
-        tick: 20,
-        abilityWidth: 0,
-
-        currentJob: adventurer.job[0].name,
-        starterInactive: 'job-info-container',
-        starterActive: 'job-active',
+            currentJob: adventurer.job[0].name,
+            starterInactive: 'job-info-container',
+            starterActive: 'job-active',
+        }
     },
         
     methods: {
-        starterButton($event, index) {
+        selectJob($event, index) {                              // don't know why this needs $event but it doesn't work without it
             for (i=0;i<adventurer.job.length;i++) {
                 if (i != index) {
                     adventurer.job[i].jobIsActive = false;
+                    adventurer.job[i].abilities.forEach((element) => {
+                        element.active = false;
+                        // console.log(element.name, element.active);
+                    })
                 } else {
                     adventurer.job[i].jobIsActive = true;
-                    this.currentJob = adventurer.job[i].name;
+                    this.currentJob = adventurer.job[i].name; // adventurer works, but we have to use 'this' option for currentJob, don't know why
                 }
             }
-        }, 
+        },
 
         setActiveSkill(spellIndex) {
-            tempJob = this.adventurer.job.filter((job) => (job.name == this.currentJob));
+            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob));
+            console.log(tempJob[0].abilities[spellIndex].name)
             tempJob[0].abilities[spellIndex].active = !tempJob[0].abilities[spellIndex].active;
 
             activeAbility = tempJob[0].abilities[spellIndex];
             let i = 0;                                              // if we directly set castProgress it results in a really long string of numbers
             fakeXP = 0;
-            console.log(Object.keys(this._data));
+            // console.log(Object.keys(this._data));
             let fillerthing = setInterval(() => {            
                 if (this.abilityWidth < 99 && activeAbility.active == true) {
                     tickrate=(activeAbility.castTime*1000)/this.tick;                   
@@ -62,15 +68,16 @@ var SkillGrinder = new Vue({
 
     computed: {
         starterJobs: function() {  
-            return this.adventurer.job.filter((job) => (job.tier == 0));
+            return adventurer.job.filter((job) => (job.tier == 0));         // Vue 3
+            // return this.adventurer.job.filter((job) => (job.tier == 0)); // Vue 2
         },
         midJobs: function() {
-            return this.adventurer.job.filter((job) => ((job.tier == 1) && job.unlocked == true));
+            return adventurer.job.filter((job) => ((job.tier == 1) && job.unlocked == true));
         },
         activeJob: function() {
-            tempJob = this.adventurer.job.filter((job) => (job.name == this.currentJob));
-            // console.log(tempJob[0].name, " | ", tempJob[0].abilities[0].name);
+            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob));
+            console.log(tempJob[0].name, " | ", tempJob[0].abilities[0].name);
             return tempJob[0];
         },
     },
-}) 
+}) .mount("#skg");
