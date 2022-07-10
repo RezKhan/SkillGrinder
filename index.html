@@ -11,8 +11,7 @@
     <body>
         <div id="skg">
             <div class="toptext">
-                SKG<br>
-                {{ currentJob }}
+                SKG
             </div>
             <div class="job-container">
                 <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
@@ -37,7 +36,7 @@
                         Rank: {{abilities.rank}}</p>
                         <div :class="[activeJob.name, abilities.name, 'progress-shell']">
                             <div :class="[activeJob.name, abilities.name, abilities.active ? 'progress-inner':'']" :style="{'width': abilityWidth + '%'}">
-                                <span>{{abilities.castProgress}}</span>
+                                <span>{{this.castProgress}} / {{abilities.castTime}}</span>
                             </div>
                         </div>
                     </div>

@@ -90,7 +90,8 @@ var joblessAbility = [
         coefficient: 0.1,
         rank: "F",
         unlocked: false,
-        castTime: 2,
+        castTime: 3,
+        castProgress: 0.0,
         level: 1,
         experience: 0
     },
@@ -129,7 +130,7 @@ warriorAbility.forEach(element => {
 
 var rogueAbility = [
     {
-        name: "Kick",
+        name: "Stab",
         active: false,
         coefficient: 0.1,
         rank: "F",
@@ -139,7 +140,7 @@ var rogueAbility = [
         experience: 0
     },
     {
-        name: "Stab",
+        name: "Throw Knife",
         active: false,
         coefficient: 0.1,
         rank: "F",

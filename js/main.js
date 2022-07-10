@@ -6,6 +6,7 @@ createApp({
             adventurer: adventurer,
             tick: 20,
             abilityWidth: 0,
+            castProgress: 0.0,
 
             currentJob: adventurer.job[0].name,
             starterInactive: 'job-info-container',
@@ -30,34 +31,49 @@ createApp({
         },
 
         setActiveSkill(spellIndex) {
+            i = 0;                                              // if we directly set castProgress it results in a really long string of numbers
+            fakeXP = 0;
+            
             tempJob = adventurer.job.filter((job) => (job.name == this.currentJob));
-            console.log(tempJob[0].abilities[spellIndex].name)
+            // console.log(tempJob[0].abilities[spellIndex].name)
             tempJob[0].abilities[spellIndex].active = !tempJob[0].abilities[spellIndex].active;
 
+            tempAbilities = tempJob[0].abilities;
+            for (n=0; n<tempAbilities.length; n++) {
+                if (n != spellIndex) {
+                    tempAbilities[n].active = false;
+                    this.castProgress = 0;
+                    i=0;
+                } 
+            }
             activeAbility = tempJob[0].abilities[spellIndex];
-            let i = 0;                                              // if we directly set castProgress it results in a really long string of numbers
-            fakeXP = 0;
+            activeAbility.castProgress=0;
+            tickrate = (activeAbility.castTime*1000)/this.tick;                   
+
             // console.log(Object.keys(this._data));
             let fillerthing = setInterval(() => {            
-                if (this.abilityWidth < 99 && activeAbility.active == true) {
-                    tickrate=(activeAbility.castTime*1000)/this.tick;                   
+                if (this.abilityWidth < 100 && activeAbility.active == true) {
                     this.abilityWidth += (100/tickrate);            // The progress bar itself
                     this.abilityWidth.toFixed(2);
-                    i += (this.tick/1000);                          // Fucky bit to deal with the text counter or it's ugly
-                    activeAbility.castProgress = i.toFixed(2); 
+                    i += (this.tick/1000);     
+                    this.castProgress = i.toFixed(2);                     // Fucky bit to deal with the text counter or it's ugly; 
                     // console.log(activeAbility.active);
+                    // console.log(activeAbility.castTime, tickrate, i);
                 } 
-                else {
+                else if(this.abilityWidth >=100) {
                     this.abilityWidth = 0;
-                    activeAbility.castProgress = 0;
-                    i = 0;
+                    this.castProgress = 0;
                     fakeXP++;
                     // console.log(activeAbility.active);
-                    console.log(activeAbility.name, activeAbility.level, "xp", fakeXP);
+                    i=0;
+                    // tempAbilities.forEach((element) => {
+                    //     console.log(element.name, element.level, "xp", fakeXP);
+                    // })
                 };
-                if (activeAbility.active == false)
+                if (activeAbility.active == false) {
                     clearInterval(fillerthing);
-                if (fakeXP >= 10) {
+                }
+                if (fakeXP >= 3) {
                     activeAbility.level++;
                     fakeXP = 0;
                     checkUnlocks();
