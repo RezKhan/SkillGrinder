@@ -15,28 +15,28 @@
             </div>
             <div class="job-container">
                 <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
-                    <div :class="[starterjob.name, starterjob.jobIsActive ? starterActive:starterInactive]" :ref="starterjob.name" @click="selectJob($event, jobindex)">
+                    <div :class="[starterjob.name, starterjob.jobIsActive ? 'job-active':'job-info-container']" :id="starterjob.name" @click="selectJob($event, jobindex)">
                         <p>{{ starterjob.name }}</p>
                         <p>{{ starterjob.level }}</p>
                     </div>
                 </template>
                 <div class="divbreak"></div>
                 <template v-for="(midjob, jobindex) in midJobs" :key="jobindex">  
-                    <div :class="[midjob.name, midjob.jobIsActive ? starterActive:starterInactive]" :ref="midjob.name" @click="midButton($event, jobindex)">
+                    <div :class="[midjob.name, midjob.jobIsActive ? 'job-active':'job-info-container']" :id="midjob.name" @click="midButton($event, jobindex)">
                         <p>{{ midjob.name }}</p>
                         <p>{{ midjob.level }}</p>
                     </div>
                 </template>
             </div>
             <div class="skill-container">
-                <template v-for="(abilities, spellindex) in activeJob.abilities" :key="spellIndex">
-                    <div :class="[abilities.name, 'skill-info-container']" id="{ abilities.name} " v-if="abilities.unlocked==true" @click="setActiveSkill(spellindex)">
-                        <p>{{ abilities.name }}</p>
+                <template v-for="(abilities, spellId) in activeJob.abilities" :key="spellId">
+                    <div :class="[abilities.name, 'skill-info-container']" :id="abilities.name" v-if="abilities.unlocked==true" @click="setActiveSkill(spellId)">
+                        <p>{{ abilities.name }} | {{spellId}}</p>
                         <p>Level: {{abilities.level}}<br>
                         Rank: {{abilities.rank}}</p>
                         <div :class="[activeJob.name, abilities.name, 'progress-shell']">
                             <div :class="[activeJob.name, abilities.name, abilities.active ? 'progress-inner':'']" :style="{'width': abilityWidth + '%'}">
-                                <span>{{this.castProgress}} / {{abilities.castTime}}</span>
+                                <span>{{abilities.castProgress}} / {{abilities.castTime}}</span>
                             </div>
                         </div>
                     </div>

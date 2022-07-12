@@ -74,6 +74,7 @@ jobs.forEach(element => {
 
 var joblessAbility = [
     {
+        spellId: 1,
         name: "Punch",
         active: false,
         coefficient: 0.1,
@@ -85,6 +86,7 @@ var joblessAbility = [
         experience: 0,
     }, 
     {
+        spellId: 2,
         name: "Kick",
         active: false,
         coefficient: 0.1,
@@ -103,6 +105,7 @@ joblessAbility.forEach(element => {
 
 var warriorAbility = [
     {
+        spellId: 3,
         name: "Slash",
         active: false,
         coefficient: 0.1,
@@ -113,6 +116,7 @@ var warriorAbility = [
         experience: 0
     }, 
     {
+        spellId: 4,
         name: "Strike",
         active: false,
         coefficient: 0.1,
@@ -130,6 +134,7 @@ warriorAbility.forEach(element => {
 
 var rogueAbility = [
     {
+        spellId: 5,
         name: "Stab",
         active: false,
         coefficient: 0.1,
@@ -140,6 +145,7 @@ var rogueAbility = [
         experience: 0
     },
     {
+        spellId: 6,
         name: "Throw Knife",
         active: false,
         coefficient: 0.1,
@@ -156,6 +162,7 @@ rogueAbility.forEach(element => {
 
 var mageAbility = [
     {
+        spellId: 7,
         name: "Fireball",
         active: false,
         coefficient: 0.1,
@@ -166,6 +173,7 @@ var mageAbility = [
         experience: 0
     }, 
     {
+        spellId: 8,
         name: "Icicle",
         active: false,
         coefficient: 0.1,
