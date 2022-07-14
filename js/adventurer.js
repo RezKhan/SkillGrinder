@@ -16,6 +16,8 @@ var jobs = [
         tier:0,
         jobIsActive: true,
         abilities: [],
+        startBar: '#5a3821',                        // BROWNS
+        endBar: '#8a5938',
     },
     {
         name: "Warrior",
@@ -25,6 +27,8 @@ var jobs = [
         tier:0,
         jobIsActive: false,
         abilities: [],
+        startBar: '#66291e',                        // BROWNISH RED
+        endBar: '#a72610',
     },
     {
         name: "Rogue",
@@ -34,6 +38,8 @@ var jobs = [
         tier:0,
         jobIsActive: false,
         abilities: [],
+        startBar: '#5a3821',
+        endBar: '#8a5938',
     },
     {
         name: "Mage",
@@ -43,6 +49,8 @@ var jobs = [
         tier:0,
         jobIsActive: false,
         abilities: [],
+        startBar: '#5a3821',
+        endBar: '#8a5938',
     },
     // tier 1 jobs
     {
@@ -88,6 +96,30 @@ var joblessAbility = [
     {
         spellId: 2,
         name: "Kick",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 3,
+        castProgress: 0.0,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 9,
+        name: "Whack",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 3,
+        castProgress: 0.0,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 10,
+        name: "Flail",
         active: false,
         coefficient: 0.1,
         rank: "F",
