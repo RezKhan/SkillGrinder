@@ -32,8 +32,7 @@ createApp({
             }
             styleRoot = document.querySelector(':root');
             styleRoot.style.setProperty('--fill-start', adventurer.job[index].startBar);
-            styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);
-            
+            styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);            
         },
         
         setActiveSkill(spellId) {
@@ -53,39 +52,41 @@ createApp({
             activeSkill = tempJob[0].abilities[spellId];
             activeSkill.castProgress=0;
             this.currentSkill=activeSkill;
-            // this.fillbar(activeSkill, Date.now()/1000);
-            this.fillBar();
+            this.lastExecutionMS = null,
+            this.step();
         },
 
-          
-        fillBar() {                                                                           
-            deltaMs = Date.now() - (this.lastExecutionMS ?? Date.now());
-            this.abilityWidth += ((deltaMs/10) / activeSkill.castTime);
+        step(now) {
+            deltaMs = (now - (this.lastExecutionMS ?? now));
+            if ((deltaMs <= 0) || isNaN(deltaMs)){
+                deltaMs = 0;
+            }
+            this.lastExecutionMS = now;
+            this.fillBar(activeSkill, deltaMs);
 
+            if (this.currentSkill.active == false) {
+                console.log('Current skill is not active!')
+                cancelAnimationFrame(this.step);
+                return;
+            }
+            requestAnimationFrame(this.step);
+        },
+
+        fillBar(activeSkill, deltaMs) {
+            this.abilityWidth += (deltaMs / (activeSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
+            i += deltaMs/1000;
+            activeSkill.castProgress = i.toFixed(2)
             if (this.abilityWidth > 99) {
                 this.abilityWidth =0;
                 fakeXP++;
+                i=0;
             }
             if (fakeXP >= 2) {
                 activeSkill.level++;
                 fakeXP = 0;
                 checkUnlocks();
             }
-            this.lastExecutionMS = Date.now()
-
-            if (this.currentSkill.active == false) {
-                console.log('Current skill is not active!')
-                cancelAnimationFrame(this.fillBar);
-                return;
-            }
-            // if (this.currentSkill.name != this.lastSkill.name) {
-            //     console.log('Current skill is not last skill!')
-            //     cancelAnimationFrame(this.fillBar);
-            //     return;
-            // }
             this.lastSkill=this.currentSkill;
-
-            requestAnimationFrame(this.fillBar);
         },
     },
 
@@ -141,3 +142,16 @@ createApp({
             //         }
             //     }
             // }, this.tick);
+
+
+            
+            // if (this.currentSkill.active == false) {
+            //     console.log('Current skill is not active!')
+            //     cancelAnimationFrame(this.step());
+            //     return;
+            // }
+            // if (this.currentSkill.name != this.lastSkill.name) {
+            //     console.log('Current skill is not last skill!')
+            //     cancelAnimationFrame(this.fillBar);
+            //     return;
+            // }
