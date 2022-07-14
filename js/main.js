@@ -7,31 +7,40 @@ createApp({
             tick: 20,
             abilityWidth: 0,
 
-            currentJob: adventurer.job[0].name,                         // initialising
+            currentJob: adventurer.job[0],                         // initialising
             currentSkill: adventurer.job[0].abilities[0], 
+            lastJob: adventurer.job[0], 
+            lastSkill: adventurer.job[0].abilities[0],
+            lastExecutionMS: null,
         }
     },
         
     methods: {
-        selectJob($event, index) {                              // don't know why this needs $event but it doesn't work without it
+        selectJob(index) {                              // don't know why this needs $event but it doesn't work without it
             for (i=0; i<adventurer.job.length; i++) {
                 if (i != index) {
                     adventurer.job[i].jobIsActive = false;
                     adventurer.job[i].abilities.forEach((element) => {
                         element.active = false;
+                        // console.log(adventurer.job[i].name, element.name, element.active);
                     })
                 } else {
                     adventurer.job[i].jobIsActive = true;
-                    this.currentJob = adventurer.job[i].name; // adventurer works, but I have to use 'this' option for currentJob, don't know why
+                    adventurer.job[i].abilities.active = false;
+                    this.currentJob = adventurer.job[i]; // adventurer works, but I have to use 'this' option for currentJob, don't know why
                 }
             }
+            styleRoot = document.querySelector(':root');
+            styleRoot.style.setProperty('--fill-start', adventurer.job[index].startBar);
+            styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);
+            
         },
         
         setActiveSkill(spellId) {
             i = 0;                                                                  // if i directly set castProgress it results in a really long string of numbers
             fakeXP = 0;
             this.abilityWidth=0;
-            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob));
+            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
             tempJob[0].abilities[spellId].active = !tempJob[0].abilities[spellId].active;
 
             for (n=0; n<tempJob[0].abilities.length; n++) {
@@ -40,65 +49,52 @@ createApp({
                     tempJob[0].abilities[n].castProgress = 0;
                 } 
             }
+
             activeSkill = tempJob[0].abilities[spellId];
             activeSkill.castProgress=0;
-            tickrate = (activeSkill.castTime*1000)/this.tick;                   
-
-            let fillerthing = setInterval(() => {            
-                if (this.abilityWidth < 99 && activeSkill.active == true) {
-                    this.abilityWidth += (100/tickrate);                            // The progress bar itself
-                    this.abilityWidth.toFixed(2);
-                    i += (this.tick/1000);     
-                    activeSkill.castProgress = i.toFixed(2);                        // Fucky bit to deal with the text counter or it's ugly; 
-                } 
-                else {
-                    this.abilityWidth = 0;
-                    this.castProgress = 0;
-                    fakeXP++;
-                    i=0;
-                };
-                if (this.currentSkill.active == false) {
-                    clearInterval(fillerthing);
-                }
-                if (fakeXP >= 2) {
-                    activeSkill.level++;
-                    fakeXP = 0;
-                    checkUnlocks();
-                }
-                this.currentSkill=activeSkill;
-            }, this.tick);
-            //this.fillbar(activeSkill, tickrate);
+            this.currentSkill=activeSkill;
+            // this.fillbar(activeSkill, Date.now()/1000);
+            this.fillBar();
         },
 
-        fillbar(activeSkill, tickrate) {   // <--- Trying to move the above to it's own function, but it fucks something else
-            let fillerthing = setInterval(() => {            
-                if (this.abilityWidth < 100 && activeSkill.active == true) {
-                    this.abilityWidth += (100/tickrate);            // The progress bar itself
-                    this.abilityWidth.toFixed(2);
-                    i += (this.tick/1000);     
-                    activeSkill.castProgress = i.toFixed(2);                     // Fucky bit to deal with the text counter or it's ugly; 
-                } 
-                else {
-                    this.abilityWidth = 0;
-                    this.castProgress = 0;
-                    fakeXP++;
-                    i=0;
-                };
-                if (this.currentSkill.active == false) {
-                    clearInterval(fillerthing);
-                }
-                if (fakeXP >= 2) {
-                    activeSkill.level++;
-                    fakeXP = 0;
-                    checkUnlocks();
-                }
-                this.currentSkill=activeSkill;
-            }, this.tick);
+          
+        fillBar() {                                                                           
+            deltaMs = Date.now() - (this.lastExecutionMS ?? Date.now());
+            this.abilityWidth += ((deltaMs/10) / activeSkill.castTime);
+
+            if (this.abilityWidth > 99) {
+                this.abilityWidth =0;
+                fakeXP++;
+            }
+            if (fakeXP >= 2) {
+                activeSkill.level++;
+                fakeXP = 0;
+                checkUnlocks();
+            }
+            this.lastExecutionMS = Date.now()
+
+            if (this.currentSkill.active == false) {
+                console.log('Current skill is not active!')
+                cancelAnimationFrame(this.fillBar);
+                return;
+            }
+            // if (this.currentSkill.name != this.lastSkill.name) {
+            //     console.log('Current skill is not last skill!')
+            //     cancelAnimationFrame(this.fillBar);
+            //     return;
+            // }
+            this.lastSkill=this.currentSkill;
+
+            requestAnimationFrame(this.fillBar);
         },
     },
 
+
     computed: {
         starterJobs: function() {  
+            styleRoot = document.querySelector(':root');
+            styleRoot.style.setProperty('--fill-start', adventurer.job[0].startBar);
+            styleRoot.style.setProperty('--fill-end', adventurer.job[0].endBar);
             return adventurer.job.filter((job) => (job.tier == 0));         // Vue 3
             // return this.adventurer.job.filter((job) => (job.tier == 0)); // Vue 2
         },
@@ -106,9 +102,42 @@ createApp({
             return adventurer.job.filter((job) => ((job.tier == 1) && job.unlocked == true));
         },
         activeJob: function() {
-            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob));
-            console.log(tempJob[0].name, " | ", tempJob[0].abilities[0].name);
+            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
             return tempJob[0];
         },
     },
 }) .mount("#skg");
+
+
+        // fillbar(activeSkill, deltaMs) {                                                          // <--- Trying to move the above to it's own function, 
+                                                                                        // but it fucks something else, likely because of setInterval
+                                                                                        // work on removing setInterval next
+
+            // let fillerthing = setInterval(() => { 
+            //     if (activeSkill.active == true) {
+            //         if (this.abilityWidth < 99) {
+            //             this.abilityWidth += (100/tickrate);                            // The progress bar itself
+            //             this.abilityWidth.toFixed(2);
+            //             i += (this.tick/1000);     
+            //             activeSkill.castProgress = i.toFixed(2);                        // Fucky bit to deal with the text counter or it's ugly; 
+            //         } 
+            //         else {
+            //             this.abilityWidth = 0;
+            //             this.castProgress = 0;
+            //             fakeXP++;
+            //             i=0;
+            //         };
+            //         console.log('Current:', this.currentSkill.name, '| Last:', this.lastSkill.name, '| Active:', activeSkill.name)
+            //         if (this.currentSkill.active == false) {
+            //             clearInterval(fillerthing);
+            //         }
+            //         if ((this.currentSkill.name != this.lastSkill.name) || (this.currentSkill.name != activeSkill.name)) {
+            //             clearInterval(fillerthing);
+            //         }
+            //         if (fakeXP >= 2) {
+            //             activeSkill.level++;
+            //             fakeXP = 0;
+            //             checkUnlocks();
+            //         }
+            //     }
+            // }, this.tick);
