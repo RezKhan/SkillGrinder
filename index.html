@@ -18,7 +18,7 @@
                 <div class="player">
                     <div class="job-container">
                         <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
-                            <button :class="[starterjob.name, starterjob.jobIsActive ? 'job-active':'job-info-container']" :id="starterjob.name" @click="selectJob(jobindex)">
+                            <button :class="[starterjob.name, starterjob.active ? 'job-active':'job-info-container']" :id="starterjob.name" @click="setJob(jobindex)">
                                 <ul>
                                     <li>{{ starterjob.name }}</li>
                                     <li>Level: {{ starterjob.level }}</li>
@@ -46,15 +46,31 @@
                             </button>
                         </template>
                         <div class="divbreak"></div>
-                        <div :class="[currentJob.name, currentSkill.name, 'progress-shell']">
-                            <div :class="[currentJob.name, currentSkill.name, currentSkill.active ? 'progress-inner':'']" :style="{'width': abilityWidth + '%'}">
-                                <span>{{currentSkill.castProgress}} / {{currentSkill.castTime}}</span>
+                        <div class="adventurer-health-shell">
+                            <div class="adventurer-health-progress-inner" :style="{'width': ((adventurer.health / adventurer.maxHealth)*100) + '%'}">
+                                <span class="progress-bar-text">{{adventurer.health}} / {{adventurer.maxHealth}}</span>
+                            </div>
+                        </div>
+                        <div class="divbreak"></div>
+                        <div :class="[currentJob.name, currentSkill.name, 'adventurer-cast-shell']">
+                            <div :class="[currentJob.name, currentSkill.name, currentSkill.active ? 'adventurer-cast-progress-inner':'']" :style="{'width': adventurerCastPercentage + '%'}">
+                                <span class="progress-bar-text">{{adventurer.castProgress}} / {{currentSkill.castTime}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="enemies">
-                    The Enemies
+                    <h3>{{currentEnemy.name}}</h3>
+                    <ul>
+                        <li>Level: {{currentEnemy.level}}</li>
+                        <li>Rank: {{currentEnemy.rank}}</li>
+                    </ul>
+                    <div class="divbreak"></div>
+                    <div class="enemy-health-shell">
+                        <div class="enemy-health-progress-inner">
+                            <span  class="progress-bar-text">{{enemy.health}} / {{enemy.maxHealth}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,5 +79,6 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="./js/formulas.js"></script>
     <script src="./js/adventurer.js"></script>
+    <script src="./js/enemies.js"></script>
     <script src="./js/main.js"></script>
 </html>

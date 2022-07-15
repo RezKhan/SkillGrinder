@@ -1,20 +1,22 @@
-var adventurer = {
+const adventurer = {
     job: [],
     level: 1,
     rank: "F",
-    health: 10,
+    health: 100,
+    maxHealth: 100,
     power: 10, 
-    speed: 1
+    speed: 1,
+    castProgress: 0.0,
 };
 
-var jobs = [
+const jobs = [
     {
         name: "Jobless",
         level: 1,
         rank: "F",
         experience: 0,
         tier:0,
-        jobIsActive: true,
+        active: true,
         abilities: [],
         startBar: '#5a3821',                        // BROWNS
         endBar: '#8a5938',
@@ -25,7 +27,7 @@ var jobs = [
         rank: "F",
         experience: 0,
         tier:0,
-        jobIsActive: false,
+        active: false,
         abilities: [],
         startBar: '#66291e',                        // BROWNISH RED
         endBar: '#a72610',
@@ -36,10 +38,10 @@ var jobs = [
         rank: "F",
         experience: 0,
         tier:0,
-        jobIsActive: false,
+        active: false,
         abilities: [],
-        startBar: '#5a3821',
-        endBar: '#8a5938',
+        startBar: '#9c9e09',
+        endBar: '#ceab13',
     },
     {
         name: "Mage",
@@ -47,10 +49,10 @@ var jobs = [
         rank: "F",
         experience: 0,
         tier:0,
-        jobIsActive: false,
+        active: false,
         abilities: [],
-        startBar: '#5a3821',
-        endBar: '#8a5938',
+        startBar: '#f56e00',
+        endBar: '#f53900',
     },
     // tier 1 jobs
     {
@@ -60,8 +62,10 @@ var jobs = [
         experience: 0,
         tier:1,
         unlocked: false,
-        jobIsActive: false,
+        active: false,
         abilities: [],
+        startBar: '#f56e00',
+        endBar: '#f53900',
     },
     {
         name: "Summoner",
@@ -70,8 +74,10 @@ var jobs = [
         experience: 0,
         tier: 1,
         unlocked: false,
-        jobIsActive: false,
+        active: false,
         abilities: [],
+        startBar: '#f56e00',
+        endBar: '#f53900',
     },
 ];
 
@@ -89,7 +95,6 @@ var joblessAbility = [
         rank: "F",
         unlocked: true,
         castTime: 1.5,
-        castProgress: 0.0,
         level: 1,
         experience: 0,
     }, 
@@ -101,31 +106,28 @@ var joblessAbility = [
         rank: "F",
         unlocked: false,
         castTime: 2,
-        castProgress: 0.0,
         level: 1,
         experience: 0
     },
     {
-        spellId: 9,
+        spellId: 3,
         name: "Whack",
         active: false,
         coefficient: 0.125,
         rank: "F",
         unlocked: false,
         castTime: 2.5,
-        castProgress: 0.0,
         level: 1,
         experience: 0
     },
     {
-        spellId: 10,
+        spellId: 4,
         name: "Flail",
         active: false,
         coefficient: 0.13,
         rank: "F",
         unlocked: false,
         castTime: 3,
-        castProgress: 0.0,
         level: 1,
         experience: 0
     },
@@ -137,7 +139,7 @@ joblessAbility.forEach(element => {
 
 var warriorAbility = [
     {
-        spellId: 3,
+        spellId: 5,
         name: "Slash",
         active: false,
         coefficient: 0.1,
@@ -148,8 +150,29 @@ var warriorAbility = [
         experience: 0
     }, 
     {
-        spellId: 4,
+        spellId: 6,
         name: "Strike",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 3,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 7,
+        name: "Crushing Blow",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 3,
+        level: 1,
+        experience: 0
+    },
+    {   spellId: 8,
+        name: "Whirlwind",
         active: false,
         coefficient: 0.1,
         rank: "F",
@@ -166,7 +189,7 @@ warriorAbility.forEach(element => {
 
 var rogueAbility = [
     {
-        spellId: 5,
+        spellId: 9,
         name: "Stab",
         active: false,
         coefficient: 0.1,
@@ -177,7 +200,7 @@ var rogueAbility = [
         experience: 0
     },
     {
-        spellId: 6,
+        spellId: 10,
         name: "Throw Knife",
         active: false,
         coefficient: 0.1,
@@ -186,7 +209,30 @@ var rogueAbility = [
         castTime: 4,
         level: 1,
         experience: 0
-    }, ];
+    },
+    {
+        spellId: 11,
+        name: "Gash",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 1.5,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 12,
+        name: "Mug",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 4,
+        level: 1,
+        experience: 0
+    },
+];
 
 rogueAbility.forEach(element => {
     adventurer.job[2].abilities.push(element)
@@ -194,7 +240,7 @@ rogueAbility.forEach(element => {
 
 var mageAbility = [
     {
-        spellId: 7,
+        spellId: 13,
         name: "Fireball",
         active: false,
         coefficient: 0.1,
@@ -205,8 +251,30 @@ var mageAbility = [
         experience: 0
     }, 
     {
-        spellId: 8,
+        spellId: 14,
         name: "Icicle",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 4,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 15,
+        name: "Sear",
+        active: false,
+        coefficient: 0.1,
+        rank: "F",
+        unlocked: false,
+        castTime: 1.5,
+        level: 1,
+        experience: 0
+    },
+    {
+        spellId: 16,
+        name: "Lightning Strike",
         active: false,
         coefficient: 0.1,
         rank: "F",

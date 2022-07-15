@@ -1,7 +1,8 @@
 :root {
     --fill-start: #4e0000;
     --fill-end: #888888;
-    --test: #a72610;
+    --player-health: #43d300;
+    --test: #ceab13;
 }
 
 body {
@@ -40,7 +41,7 @@ ul {
 
 .enemies {
     width: 20%;
-    border: 1px solid red;
+    border: 1px solid #800101;
     border-radius: 10px;
     padding: 10px;
     text-align: center;
@@ -66,7 +67,7 @@ ul {
     cursor: pointer;
     border-radius: 10px;
     border: 1px solid #524a38;
-    background-color: #c0ba63;
+    background-color: #9baa91;
 }
 .skill-container {
     display: flex; 
@@ -80,6 +81,7 @@ ul {
     padding: 5px;
     cursor: pointer;
     text-align: center;
+    font-size: 11px;
     border-radius: 10px;
     border: 1px solid var(--fill-start);
     background-color: var(--fill-end);
@@ -87,7 +89,7 @@ ul {
 
 .skill-info-container:disabled {
     cursor: default;
-    background-color: #666673;
+    background-color: #7e7e92;
 }
 
 
@@ -96,7 +98,8 @@ ul {
     height: 10px;    
 }
 
-.progress-shell {
+
+.adventurer-health-shell {
     width: 100%;
     height: 20px;
     background: #54515e;
@@ -105,17 +108,48 @@ ul {
     border-radius: 10px;
 }
 
-.progress-inner {
+.adventurer-health-progress-inner {
+    height: 100%;
+    background:  var(--player-health);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.adventurer-cast-shell {
+    width: 100%;
+    height: 20px;
+    background: #54515e;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.adventurer-cast-progress-inner {
     height: 100%;
     background-image: linear-gradient(to right, var(--fill-start), var(--fill-end));
     border-radius: 10px;
     overflow: hidden;
 }
 
-.progress-shell span {
+.enemy-health-shell {
+    width: 100%;
+    height: 20px;
+    background: #54515e;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;   
+}
+
+.enemy-health-progress-inner{
+    height: 100%;
+    background:  #800101;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
 }
