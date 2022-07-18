@@ -66,7 +66,7 @@ const skg = createApp({
             if (this.adventurerCastPercentage > 99.5) {
                 this.adventurerCastPercentage =0;
                 adventurer.castProgress=0;
-                enemy.health -= adventurerDamageTurn();                
+                this.enemy.health -= adventurerDamageTurn();                
             }
             if (fakeXP >= 2) {
                 this.currentSkill.level++;
@@ -84,7 +84,8 @@ const skg = createApp({
             availableEnemy = enemy.enemyType.filter((enemyType) => (enemyType.unlocked == true))
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)]
             this.currentEnemyCastPercentage = 0;
-            enemy.castProgress = 0;
+            this.enemy.castProgress = 0;
+            this.enemy.health = enemy.maxHealth;
         }, 
 
         setEnemySkill() {
@@ -144,9 +145,18 @@ const skg = createApp({
     },
 
     watch: {
-        'enemy.health': function(newVal, oldValue) {
-            console.log(enemy.health)
-        }
+        'enemy.health': function(newVal, oldVal) {          // this works now, but the below is horrible. Change it to something that doesn't suck.
+            if (newVal <= 0) {
+                console.log('Killed the enemy!');
+                this.enemy.health=0;
+                this.currentSkill.active = false;
+                cancelAnimationFrame(this.stepActive);
+                this.setEnemy();
+                this.currentSkill.active=true;
+                requestAnimationFrame(this.stepActive);
+                return;
+            }
+        },
     },
 
     computed: {
