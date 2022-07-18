@@ -1,7 +1,7 @@
 :root {
     --fill-start: #4e0000;
     --fill-end: #888888;
-    --player-health: #43d300;
+    --player-health: #3bb403;
     --test: #ceab13;
 }
 
@@ -40,6 +40,9 @@ ul {
 }
 
 .enemies {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 20%;
     border: 1px solid #800101;
     border-radius: 10px;
@@ -98,8 +101,7 @@ ul {
     height: 10px;    
 }
 
-
-.adventurer-health-shell {
+.progress-bar-shell {
     width: 100%;
     height: 20px;
     background: #54515e;
@@ -115,15 +117,6 @@ ul {
     overflow: hidden;
 }
 
-.adventurer-cast-shell {
-    width: 100%;
-    height: 20px;
-    background: #54515e;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
 .adventurer-cast-progress-inner {
     height: 100%;
     background-image: linear-gradient(to right, var(--fill-start), var(--fill-end));
@@ -131,20 +124,22 @@ ul {
     overflow: hidden;
 }
 
-.enemy-health-shell {
-    width: 100%;
-    height: 20px;
-    background: #54515e;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;   
-}
-
 .enemy-health-progress-inner{
     height: 100%;
     background:  #800101;
     border-radius: 10px;
     overflow: hidden;
+}
+
+.enemy-cast-progress-inner {
+    height: 100%;
+    background: linear-gradient(to right, #800101, #9e0202);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.enemy-bars {
+    position: relative;
 }
 
 .progress-bar-text {

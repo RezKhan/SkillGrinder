@@ -1,22 +1,23 @@
 const { createApp } = Vue;
 
-createApp({
+const skg = createApp({
     data() {
         return {
+            gameVersion: 0.1,
             adventurer: adventurer,
             enemy: enemy,
-            // tick: 20, // not needed since we're not using setInterval
 
             currentJob: adventurer.job[0],                         // initialising
             currentSkill: adventurer.job[0].abilities[0], 
             lastJob: adventurer.job[0], 
             lastSkill: adventurer.job[0].abilities[0],
-            lastExecutionMS: null,
             adventurerCastPercentage: 0,
 
             currentEnemy: enemy.enemyType[0],
             currentEnemySkill: enemy.enemyType[0].abilities[0],
-            enemycastPercentage: 0,
+            enemyCastPercentage: 0,
+
+            lastExecutionMS: null,
         }
     },
         
@@ -53,62 +54,99 @@ createApp({
                     // adventurer.castProgress = 0;
                 } 
             }
-            activeSkill = tempJob[0].abilities[spellId];
+            this.currentSkill = tempJob[0].abilities[spellId];
             adventurer.castProgress=0;
-            this.currentSkill=activeSkill;
             this.lastExecutionMS = null,
-            this.step();
+            this.stepActive();
         },
 
-        fillPlayerBar(activeSkill, deltaMs) {
-            this.adventurerCastPercentage += (deltaMs / (activeSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
-            i += deltaMs/1000;
-            adventurer.castProgress = i.toFixed(1)
-            if (this.adventurerCastPercentage > 99) {
+        fillPlayerBar(deltaMs) {
+            this.adventurerCastPercentage += (deltaMs / (this.currentSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
+            adventurer.castProgress += deltaMs/1000;
+            if (this.adventurerCastPercentage > 99.5) {
                 this.adventurerCastPercentage =0;
-                fakeXP++;
-                i=0;
-                this.setEnemy();
+                adventurer.castProgress=0;
+                enemy.health -= adventurerDamageTurn();                
             }
             if (fakeXP >= 2) {
-                activeSkill.level++;
+                this.currentSkill.level++;
                 fakeXP = 0;
                 checkUnlocks();
             }
             this.lastSkill=this.currentSkill;
         },
 
-        setEnemy() {
-            availableEnemy = enemy.enemyType.filter((enemyType) => (enemyType.unlocked == true));
-            
-            console.log(Math.floor(Math.random()*availableEnemy.length))
-            this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)]
-            // this.currentEnemy = availableEnemy.enemyType[Math.random(availableEnemy.enemyType.length)]
+        fillPlayerHealth(deltaMs) {
+            this.adventurer.health += deltaMs/100;
         },
+
+        setEnemy() {
+            availableEnemy = enemy.enemyType.filter((enemyType) => (enemyType.unlocked == true))
+            this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)]
+            this.currentEnemyCastPercentage = 0;
+            enemy.castProgress = 0;
+        }, 
 
         setEnemySkill() {
 
         }, 
         
-        fillEnemyBar () {
-
+        fillEnemyBar (deltaMs) {
+            this.enemyCastPercentage += (deltaMs / (this.currentEnemySkill.castTime*10));
+            enemy.castProgress += deltaMs/1000;
+            if (this.enemyCastPercentage > 99.5) {
+                enemy.castProgress = 0;
+                this.enemyCastPercentage = 0;
+                enemyDamageTurn();
+            }
         },
 
-        step(now) {
-            deltaMs = (now - (this.lastExecutionMS ?? now));
+        stepActive(now) {
+            deltaMs = (now - (this.lastExecutionMS ?? Date.now()));
             if ((deltaMs <= 0) || isNaN(deltaMs)){
                 deltaMs = 0;
             }
             this.lastExecutionMS = now;
-            this.fillPlayerBar(activeSkill, deltaMs);
+            this.fillPlayerBar(deltaMs);
+            this.fillEnemyBar(deltaMs);
 
             if (this.currentSkill.active == false) {
                 console.log('Current skill is not active!')
-                cancelAnimationFrame(this.step);
+                cancelAnimationFrame(this.stepActive);
+                if (adventurer.health >= adventurer.maxHealth) {
+                    console.log('Fully healed!');
+                    return;    
+                }
+                if (adventurer.health < adventurer.maxHealth) {
+                    // this.fillPlayerHealth(deltaMs);
+                    requestAnimationFrame(this.stepRest);
+                    return;
+                }
+            }
+            requestAnimationFrame(this.stepActive);
+        },
+
+        stepRest(now) {
+            deltaMs = (now - (this.lastExecutionMS ?? Date.now()));
+            if ((deltaMs <= 0) || isNaN(deltaMs)){
+                deltaMs = 0;
+            }
+            this.lastExecutionMS = now;
+            this.fillPlayerHealth(deltaMs)
+
+            if (adventurer.health >= adventurer.maxHealth) {
+                console.log('Healed'); 
+                cancelAnimationFrame(this.stepRest);
                 return;
             }
-            requestAnimationFrame(this.step);
-        },
+            requestAnimationFrame(this.stepRest);
+        }, 
+    },
+
+    watch: {
+        'enemy.health': function(newVal, oldValue) {
+            console.log(enemy.health)
+        }
     },
 
     computed: {
@@ -117,7 +155,6 @@ createApp({
             styleRoot.style.setProperty('--fill-start', adventurer.job[0].startBar);
             styleRoot.style.setProperty('--fill-end', adventurer.job[0].endBar);
             return adventurer.job.filter((job) => (job.tier == 0));         // Vue 3
-            // return this.adventurer.job.filter((job) => (job.tier == 0)); // Vue 2
         },
         midJobs: function() {
             return adventurer.job.filter((job) => ((job.tier == 1) && job.unlocked == true));
@@ -129,14 +166,3 @@ createApp({
     },
 }) .mount("#skg");
 
-
-            // if (this.currentSkill.active == false) {
-            //     console.log('Current skill is not active!')
-            //     cancelAnimationFrame(this.step());
-            //     return;
-            // }
-            // if (this.currentSkill.name != this.lastSkill.name) {
-            //     console.log('Current skill is not last skill!')
-            //     cancelAnimationFrame(this.fillBar);
-            //     return;
-            // }

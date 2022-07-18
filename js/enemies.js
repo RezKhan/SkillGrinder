@@ -5,36 +5,42 @@ const enemy = {
     health: 100,
     maxHealth: 100,
     power: 10, 
-    speed: 1, 
     castProgress: 0.0,
+    killedCount: 0,
 };
 
 const enemyType = [
     {
         name: 'Puppet',
         level: 1,
+        experience: 10,
         rank: 'F',
         healthMod: 1.1,
         tier: 0,
         unlocked: true,
+        killedCount: 0,
         abilities: [],
     },
     {
         name: 'Cockroach',
         level: 1,
+        experience: 10,
         rank: 'F',
         healthMod: 0.8,
         tier: 0,
-        unlocked: true,
+        unlocked: false,
+        killedCount: 0,
         abilities: [],
     },
     {
         name: 'Rat',
         level: 1,
+        experience: 10,
         rank: 'F',
         healthMod: 0.9,
         tier: 0,
         unlocked: false,
+        killedCount: 0,
         abilities: [],
     },
 ];
@@ -46,14 +52,14 @@ enemyType.forEach(element => {
 var puppetAbility = [
     {
         name: "Swing",
-        coefficient: 0.1,
+        coefficient: 0.7,
         rank: "F",
         castTime: 2,
         level: 1,
     },
     {
         name: "Bonk",
-        coefficient: 0.2,
+        coefficient: 0.75,
         rank: "F",
         castTime: 2.5,
         level: 1,
