@@ -2,7 +2,7 @@ const adventurer = {
     job: [],
     level: 1,
     rank: "F",
-    health: 80,
+    health: 100,
     maxHealth: 100,
     power: 10, 
     speed: 1,
@@ -15,6 +15,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier:0,
         active: true,
         abilities: [],
@@ -26,6 +27,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier:0,
         active: false,
         abilities: [],
@@ -37,6 +39,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier:0,
         active: false,
         abilities: [],
@@ -48,6 +51,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier:0,
         active: false,
         abilities: [],
@@ -60,6 +64,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier:1,
         unlocked: false,
         active: false,
@@ -72,6 +77,7 @@ const jobs = [
         level: 1,
         rank: "F",
         experience: 0,
+        nextLevel: 100,
         tier: 1,
         unlocked: false,
         active: false,
@@ -97,6 +103,7 @@ var joblessAbility = [
         castTime: 1.5,
         level: 1,
         experience: 0,
+        nextLevel: 100,
     }, 
     {
         spellId: 2,
@@ -107,7 +114,8 @@ var joblessAbility = [
         unlocked: false,
         castTime: 2,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 3,
@@ -118,7 +126,8 @@ var joblessAbility = [
         unlocked: false,
         castTime: 2.5,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 4,
@@ -129,7 +138,8 @@ var joblessAbility = [
         unlocked: false,
         castTime: 3,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
 ];
 
@@ -147,7 +157,8 @@ var warriorAbility = [
         unlocked: true,
         castTime: 2,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     }, 
     {
         spellId: 6,
@@ -158,7 +169,8 @@ var warriorAbility = [
         unlocked: false,
         castTime: 3,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 7,
@@ -169,7 +181,8 @@ var warriorAbility = [
         unlocked: false,
         castTime: 3,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {   spellId: 8,
         name: "Whirlwind",
@@ -179,7 +192,8 @@ var warriorAbility = [
         unlocked: false,
         castTime: 3,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
 ];
 
@@ -197,7 +211,8 @@ var rogueAbility = [
         unlocked: true,
         castTime: 2,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 10,
@@ -208,7 +223,8 @@ var rogueAbility = [
         unlocked: false,
         castTime: 4,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 11,
@@ -219,7 +235,8 @@ var rogueAbility = [
         unlocked: false,
         castTime: 1.5,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 12,
@@ -230,7 +247,8 @@ var rogueAbility = [
         unlocked: false,
         castTime: 4,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
 ];
 
@@ -248,7 +266,8 @@ var mageAbility = [
         unlocked: true,
         castTime: 3.5,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     }, 
     {
         spellId: 14,
@@ -259,7 +278,8 @@ var mageAbility = [
         unlocked: false,
         castTime: 4,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 15,
@@ -270,7 +290,8 @@ var mageAbility = [
         unlocked: false,
         castTime: 1.5,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
     {
         spellId: 16,
@@ -281,7 +302,8 @@ var mageAbility = [
         unlocked: false,
         castTime: 4,
         level: 1,
-        experience: 0
+        experience: 0,
+        nextLevel: 100,
     },
 ];
 
