@@ -20,9 +20,10 @@
                         <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
                             <button :class="[starterjob.name, starterjob.active ? 'job-active':'job-info-container']" :id="starterjob.name" @click="setJob(jobindex)">
                                 <ul>
-                                    <li>{{ starterjob.name }}</li>
+                                    <li><h4>{{ starterjob.name }}</h4></li>
                                     <li>Level: {{ starterjob.level }}</li>
                                     <li>Rank: {{ starterjob.rank }}</li>
+                                    <li>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</li>
                                 </ul>
                             </button>
                         </template>
@@ -42,6 +43,7 @@
                                     <li>{{ abilities.name }}</li>
                                     <li>Level: {{abilities.level}}</li>
                                     <li>Rank: {{abilities.rank}}</li>
+                                    <li>XP: {{abilities.experience}} / {{abilities.nextLevel}}</li>
                                 </ul>
                             </button>
                         </template>
@@ -60,14 +62,15 @@
                     </div>
                 </div>
                 <div class="enemies">
-                    <h3>{{currentEnemy.name}}</h3>
                     <ul>
+                        <li><h4>{{currentEnemy.name}}</h4></li>
                         <li>Level: {{currentEnemy.level}}</li>
                         <li>Rank: {{currentEnemy.rank}}</li>
-                        <li v-if="enemy.castProgress>0">{{currentEnemySkill.name}}</li>
                     </ul>
                     <div class="divbreak"></div>
                     <div class="enemy-bars">
+                        <div class="enemyskill" v-if="enemy.castProgress>0">{{currentEnemySkill.name}}</div>
+                        <div class="divbreak"></div>
                         <div class="progress-bar-shell">
                             <div :class="[currentEnemy.name, 'enemy-health-progress-inner']" :style="{'width': ((enemy.health/enemy.maxHealth)*100) + '%'}">
                                 <span  class="progress-bar-text">{{enemy.health}} / {{enemy.maxHealth}}</span>
