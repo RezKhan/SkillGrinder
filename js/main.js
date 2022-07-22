@@ -7,7 +7,7 @@ const skg = createApp({
             adventurer: adventurer,
             enemy: enemy,
 
-            currentJob: adventurer.job[0],                         // initialising
+            currentJob: adventurer.job[0],                         
             currentSkill: adventurer.job[0].abilities[0], 
             lastJob: adventurer.job[0], 
             lastSkill: adventurer.job[0].abilities[0],
@@ -18,21 +18,23 @@ const skg = createApp({
             enemyCastPercentage: 0,
 
             lastExecutionMS: null,
+            activeFrame: null,
+            restFrame: null,
         }
     },
         
     methods: {
-        setJob(jobIndex) {                              // don't know why this needs $event but it doesn't work without it
+        setJob(jobIndex) {                              
             for (i=0; i<adventurer.job.length; i++) {
                 if (i != jobIndex) {
-                    adventurer.job[i].active = false;
-                    adventurer.job[i].abilities.forEach((element) => {
+                    this.adventurer.job[i].active = false;
+                    this.adventurer.job[i].abilities.forEach((element) => {
                         element.active = false;
                         // console.log(adventurer.job[i].name, element.name, element.active);
                     })
                 } else {
-                    adventurer.job[i].active = true;
-                    adventurer.job[i].abilities.active = false;
+                    this.adventurer.job[i].active = true;
+                    this.adventurer.job[i].abilities.active = false;
                     this.currentJob = adventurer.job[i]; 
                 }
             }
@@ -42,42 +44,45 @@ const skg = createApp({
         },
         
         setActiveSkill(spellId) {
-            i = 0;                                           // if i directly set castProgress it results in a really long string of numbers
             fakeXP = 0;
             this.adventurerCastPercentage=0;
             tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
-            tempJob[0].abilities[spellId].active = !tempJob[0].abilities[spellId].active;
+            this.currentSkill = tempJob[0].abilities[spellId];
+            this.currentSkill.active = !this.currentSkill.active;
 
             for (n=0; n<tempJob[0].abilities.length; n++) {
                 if (n != spellId) {
                     tempJob[0].abilities[n].active = false;
-                    // adventurer.castProgress = 0;
                 } 
             }
-            this.currentSkill = tempJob[0].abilities[spellId];
-            adventurer.castProgress=0;
+            this.adventurer.castProgress=0;
             this.lastExecutionMS = null,
             this.stepActive();
         },
 
         fillPlayerBar(deltaMs) {
             this.adventurerCastPercentage += (deltaMs / (this.currentSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
-            adventurer.castProgress += deltaMs/1000;
-            if (this.adventurerCastPercentage > 99.5) {
+            this.adventurer.castProgress += deltaMs/1000;
+            if (this.adventurerCastPercentage > 99.5) { // change this to a watcher
                 this.adventurerCastPercentage =0;
-                adventurer.castProgress=0;
+                this.adventurer.castProgress=0;
                 this.enemy.health -= adventurerDamageTurn();                
             }
-            if (fakeXP >= 2) {
-                this.currentSkill.level++;
-                fakeXP = 0;
-                checkUnlocks();
-            }
-            this.lastSkill=this.currentSkill;
+            this.lastSkill=this.currentSkill; // don't think I'm using this anymore
         },
 
         fillPlayerHealth(deltaMs) {
             this.adventurer.health += deltaMs/100;
+        },
+
+        getXp() {
+            this.currentSkill.experience += this.currentEnemy.experience;
+            if (this.currentSkill.experience >= this.currentSkill.nextLevel) {
+                this.currentSkill.level++;
+                this.currentSkill.experience -= this.currentSkill.nextLevel;
+                Math.round(this.currentSkill.nextLevel *= 1.1);
+            }
+            console.log(this.currentSkill.level, this.currentSkill.experience, this.currentSkill.nextLevel);
         },
 
         setEnemy() {
@@ -94,27 +99,69 @@ const skg = createApp({
         
         fillEnemyBar (deltaMs) {
             this.enemyCastPercentage += (deltaMs / (this.currentEnemySkill.castTime*10));
-            enemy.castProgress += deltaMs/1000;
-            if (this.enemyCastPercentage > 99.5) {
-                enemy.castProgress = 0;
+            this.enemy.castProgress += deltaMs/1000;
+            if (this.enemyCastPercentage > 99.9) {
+                this.enemy.castProgress = 0;
                 this.enemyCastPercentage = 0;
-                enemyDamageTurn();
+                this.adventurer.health -= enemyDamageTurn();
             }
         },
 
-        stepActive(now) {
-            deltaMs = (now - (this.lastExecutionMS ?? Date.now()));
+        getDeltaMs(now) {
+            deltaMs = (now - (skg.lastExecutionMS ?? performance.now()));
             if ((deltaMs <= 0) || isNaN(deltaMs)){
                 deltaMs = 0;
             }
-            this.lastExecutionMS = now;
-            this.fillPlayerBar(deltaMs);
-            this.fillEnemyBar(deltaMs);
+            return deltaMs;
+        },
 
-            if (this.currentSkill.active == false) {
+        stepActive(now) {
+            deltaMs = this.getDeltaMs(now);
+
+            if (this.currentSkill.active) {
+                this.lastExecutionMS = now;
+                this.fillPlayerBar(deltaMs);
+                this.fillEnemyBar(deltaMs);
+            }
+
+            this.activeFrame = requestAnimationFrame(this.stepActive);
+        },
+
+        stepRest(now) {
+            deltaMs = this.getDeltaMs(now);
+
+            this.lastExecutionMS = now;
+            this.fillPlayerHealth(deltaMs)
+
+            if (adventurer.health >= adventurer.maxHealth) {  // TODO: Move this to it's own function
+                console.log('Healed'); 
+                cancelAnimationFrame(this.stepRest);
+                return;
+            }
+            this.restFrame = requestAnimationFrame(this.stepRest);
+        }, 
+    },
+
+    watch: {
+        'enemy.health': function(hVal) {          // TODO: this works now, but the below is horrible. Change it to something that doesn't suck.
+            if (hVal <= 0) {
+                console.log('Killed the enemy!');
+                cancelAnimationFrame(this.activeFrame);
+                this.enemy.health=0;
+                this.currentSkill.active = false;
+                this.enemyCastPercentage = 0;
+                this.getXp();
+                this.setEnemy();
+                return;
+            }
+        },
+
+        'currentSkill.active': function(csActive) {
+            console.log('currentSkill.active is', csActive);
+            if (csActive == false) {
                 console.log('Current skill is not active!')
-                cancelAnimationFrame(this.stepActive);
-                if (adventurer.health >= adventurer.maxHealth) {
+                cancelAnimationFrame(this.stepActive());
+                if (this.adventurer.health >= this.adventurer.maxHealth) {
                     console.log('Fully healed!');
                     return;    
                 }
@@ -123,38 +170,6 @@ const skg = createApp({
                     requestAnimationFrame(this.stepRest);
                     return;
                 }
-            }
-            requestAnimationFrame(this.stepActive);
-        },
-
-        stepRest(now) {
-            deltaMs = (now - (this.lastExecutionMS ?? Date.now()));
-            if ((deltaMs <= 0) || isNaN(deltaMs)){
-                deltaMs = 0;
-            }
-            this.lastExecutionMS = now;
-            this.fillPlayerHealth(deltaMs)
-
-            if (adventurer.health >= adventurer.maxHealth) {
-                console.log('Healed'); 
-                cancelAnimationFrame(this.stepRest);
-                return;
-            }
-            requestAnimationFrame(this.stepRest);
-        }, 
-    },
-
-    watch: {
-        'enemy.health': function(newVal, oldVal) {          // this works now, but the below is horrible. Change it to something that doesn't suck.
-            if (newVal <= 0) {
-                console.log('Killed the enemy!');
-                this.enemy.health=0;
-                this.currentSkill.active = false;
-                cancelAnimationFrame(this.stepActive);
-                this.setEnemy();
-                this.currentSkill.active=true;
-                requestAnimationFrame(this.stepActive);
-                return;
             }
         },
     },
@@ -175,4 +190,3 @@ const skg = createApp({
         },
     },
 }) .mount("#skg");
-
