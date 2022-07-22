@@ -13,7 +13,6 @@ function adventurerDamageTurn() {
     let secondaryMultiplier = (adventurer.level * skg.currentJob.level) + skg.currentSkill.level;
     let coefficient = rankToCoefficient(adventurer.rank, 1+skg.currentJob.tier) + ((1 + skg.currentSkill.coefficient) * rankToCoefficient(skg.currentJob.rank, 1+skg.currentJob.tier) * rankToCoefficient(skg.currentSkill.rank, 1+skg.currentJob.tier));
     var wiggle = Math.random() * (adventurer.level + skg.currentJob.level);
-    // console.log('Primary = ', primaryMultiplier, 'Secondary = ', secondaryMultiplier, 'Coeff = ', coefficient, 'wiggle = ', wiggle);
 
     let result = Math.round(wiggle + (primaryMultiplier * secondaryMultiplier * coefficient));
     return result;
