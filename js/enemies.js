@@ -6,6 +6,7 @@ const enemy = {
     maxHealth: 100,
     constMaxHealth: 100,
     power: 10, 
+    constPower: 10,
     castProgress: 0.0,
     killedCount: 0,
 };
@@ -77,14 +78,14 @@ puppetAbility.forEach(element => {
 const ratAbility = [
     {
         name: "Scratch",
-        coefficient: 0.7,
+        coefficient: 0.75,
         rank: "F",
         castTime: 2,
         level: 1,
     },
     {
         name: "Bite",
-        coefficient: 0.75,
+        coefficient: 0.8,
         rank: "F",
         castTime: 2.5,
         level: 1,

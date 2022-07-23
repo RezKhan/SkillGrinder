@@ -18,7 +18,7 @@ function adventurerDamageTurn() {
     return result;
 }
 
-function levelUp(levelObj) {    // compunding to get health increases
+function levelUp(levelObj) {    // compounding to get health increases
     console.log(levelObj.level);
 }
 
@@ -60,6 +60,8 @@ function enemyUnlocks() {
 
 function checkUnlocks() {
     joblessUnlocks();
+
+    enemyUnlocks();
 }
 
 // Zpecs thing, use this when I need something more robust, probably when gear is in place

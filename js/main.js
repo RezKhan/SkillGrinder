@@ -3,7 +3,6 @@ const { createApp } = Vue;
 const skg = createApp({
     data() {
         return {
-            gameVersion: 0.1,
             adventurer: adventurer,
             enemy: enemy,
 
@@ -21,6 +20,8 @@ const skg = createApp({
             lastExecutionMS: null,
             activeFrame: null,
             restFrame: null,
+
+            autoRestart: false,
         }
     },
         
@@ -92,6 +93,7 @@ const skg = createApp({
         setEnemy() {
             availableEnemy = enemy.enemyType.filter((enemyType) => (enemyType.unlocked == true))
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)]
+            this.currentEnemySkill = this.currentEnemy.abilities[0];
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;
             this.enemy.health = enemy.maxHealth;
@@ -140,13 +142,16 @@ const skg = createApp({
 
         stepRest(now) {
             deltaMs = this.getDeltaMs(now);
-
             this.lastExecutionMS = now;
             this.fillPlayerHealth(deltaMs)
 
             if (adventurer.health >= adventurer.maxHealth) {  // TODO: Move this to it's own function
                 console.log('Healed'); 
                 cancelAnimationFrame(this.stepRest);
+                if (this.autoRestart == true) {
+                    this.currentSkill.active = true;
+                    this.stepActive();
+                }
                 return;
             }
             this.restFrame = requestAnimationFrame(this.stepRest);
