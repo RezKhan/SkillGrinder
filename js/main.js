@@ -75,14 +75,16 @@ const skg = createApp({
             this.adventurer.health += deltaMs/100;
         },
 
-        getXp() {
-            this.currentSkill.experience += this.currentEnemy.experience;
-            if (this.currentSkill.experience >= this.currentSkill.nextLevel) {
-                this.currentSkill.level++;
-                this.currentSkill.experience -= this.currentSkill.nextLevel;
-                Math.round(this.currentSkill.nextLevel *= 1.1);
+        getXp(levelObj, levelModifier) {
+            if (levelModifier == null) {
+                levelModifier = 1
             }
-            console.log(this.currentSkill.level, this.currentSkill.experience, this.currentSkill.nextLevel);
+            levelObj.experience += (this.currentEnemy.experience * levelModifier);
+            if (levelObj.experience >= levelObj.nextLevel) {
+                levelObj.level++;
+                levelObj.experience -= levelObj.nextLevel;
+                Math.round(levelObj.nextLevel *= 1.5);
+            }
         },
 
         setEnemy() {
@@ -147,10 +149,20 @@ const skg = createApp({
             if (hVal <= 0) {
                 console.log('Killed the enemy!');
                 cancelAnimationFrame(this.activeFrame);
-                this.enemy.health=0;
+
                 this.currentSkill.active = false;
+                this.enemy.health=0;
+                this.enemyType.killedCount++;
+                this.enemy.killedCount++;
                 this.enemyCastPercentage = 0;
-                this.getXp();
+
+                this.getXp(this.currentSkill);
+                this.getXp(this.currentJob, 0.1);
+                if (this.enemyType.level < 10) {
+                    this.getXp(this.adventurer, 0.1);
+                } else {
+                    this.getXp(this.adventurer, 0.01);
+                }
                 this.setEnemy();
                 return;
             }
@@ -166,7 +178,6 @@ const skg = createApp({
                     return;    
                 }
                 if (adventurer.health < adventurer.maxHealth) {
-                    // this.fillPlayerHealth(deltaMs);
                     requestAnimationFrame(this.stepRest);
                     return;
                 }
