@@ -18,6 +18,10 @@ function adventurerDamageTurn() {
     return result;
 }
 
+function levelUp(levelObj) {    // compunding to get health increases
+    console.log(levelObj.level);
+}
+
 function rankToCoefficient(rank, modifier) {
     if (modifier==null) {
         modifier = 1;
@@ -40,8 +44,18 @@ function warriorUnlocks() {
 
 }
 
+function rogueUnlocks() {
+
+}
+
 function mageUnlocks() {
 
+}
+
+function enemyUnlocks() {
+    if (enemy.enemyType[0].killedCount >= 10) { // unlock the rat
+        enemy.enemyType[1].unlocked = true;
+    }
 }
 
 function checkUnlocks() {

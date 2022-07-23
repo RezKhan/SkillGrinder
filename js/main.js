@@ -16,6 +16,7 @@ const skg = createApp({
             currentEnemy: enemy.enemyType[0],
             currentEnemySkill: enemy.enemyType[0].abilities[0],
             enemyCastPercentage: 0,
+            enemySkillIndex:1,
 
             lastExecutionMS: null,
             activeFrame: null,
@@ -85,6 +86,7 @@ const skg = createApp({
                 levelObj.experience -= levelObj.nextLevel;
                 Math.round(levelObj.nextLevel *= 1.5);
             }
+            checkUnlocks();
         },
 
         setEnemy() {
@@ -93,10 +95,16 @@ const skg = createApp({
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;
             this.enemy.health = enemy.maxHealth;
+            this.enemySkillIndex=0;
         }, 
 
         setEnemySkill() {
-
+            if (this.enemySkillIndex >= this.currentEnemy.castSequence.length) {
+                this.enemySkillIndex = 0
+            }
+            this.currentEnemySkill = this.currentEnemy.abilities[this.currentEnemy.castSequence[this.enemySkillIndex]]
+            console.log(this.enemySkillIndex);
+            this.enemySkillIndex++;
         }, 
         
         fillEnemyBar (deltaMs) {
@@ -105,6 +113,7 @@ const skg = createApp({
             if (this.enemyCastPercentage > 99.9) {
                 this.enemy.castProgress = 0;
                 this.enemyCastPercentage = 0;
+                this.setEnemySkill();
                 this.adventurer.health -= enemyDamageTurn();
             }
         },
@@ -152,13 +161,13 @@ const skg = createApp({
 
                 this.currentSkill.active = false;
                 this.enemy.health=0;
-                this.enemyType.killedCount++;
+                this.currentEnemy.killedCount++;
                 this.enemy.killedCount++;
                 this.enemyCastPercentage = 0;
 
                 this.getXp(this.currentSkill);
                 this.getXp(this.currentJob, 0.1);
-                if (this.enemyType.level < 10) {
+                if (this.currentEnemy.level < 10) {
                     this.getXp(this.adventurer, 0.1);
                 } else {
                     this.getXp(this.adventurer, 0.01);

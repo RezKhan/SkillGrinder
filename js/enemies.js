@@ -21,7 +21,7 @@ const enemyType = [
         unlocked: true,
         killedCount: 0,
         abilities: [],
-        castSequence: [0,0,1]
+        castSequence: [0,0,1],
     },
     {
         name: 'Rat',
@@ -33,6 +33,7 @@ const enemyType = [
         unlocked: false,
         killedCount: 0,
         abilities: [],
+        castSequence: [0,1],
     },
     {
         name: 'Bat',
@@ -44,6 +45,7 @@ const enemyType = [
         unlocked: false,
         killedCount: 0,
         abilities: [],
+        castSequence: [0,0,1],
     },
 ];
 
@@ -51,7 +53,7 @@ enemyType.forEach(element => {
     enemy.enemyType.push(element)
 });
 
-var puppetAbility = [
+const puppetAbility = [
     {
         name: "Swing",
         coefficient: 0.7,
@@ -70,4 +72,25 @@ var puppetAbility = [
 
 puppetAbility.forEach(element => {
     enemy.enemyType[0].abilities.push(element)
+});
+
+const ratAbility = [
+    {
+        name: "Scratch",
+        coefficient: 0.7,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Bite",
+        coefficient: 0.75,
+        rank: "F",
+        castTime: 2.5,
+        level: 1,
+    },
+];
+
+ratAbility.forEach(element => {
+    enemy.enemyType[1].abilities.push(element)
 });
