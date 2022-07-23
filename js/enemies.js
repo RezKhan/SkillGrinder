@@ -21,6 +21,7 @@ const enemyType = [
         unlocked: true,
         killedCount: 0,
         abilities: [],
+        castSequence: [0,0,1]
     },
     {
         name: 'Rat',
