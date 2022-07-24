@@ -29,8 +29,6 @@ function levelUp(levelObj) {    // compounding to get health increases
 }
 
 function messageUpdates (mtype, mbody) {
-    console.log(mtype, mbody);
-
     const tObj = {
         messageType: mtype,
         messageBody: mbody,

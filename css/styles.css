@@ -168,7 +168,6 @@ button {
     margin-left: -10%;
     height: 90%;
     overflow: hidden;
-    overflow: -moz-hidden-unscrollable;
 }
 
 li {

@@ -184,11 +184,7 @@ const skg = createApp({
 
         'currentSkill.active': function(csActive) {
             if (csActive == false) {
-                cancelAnimationFrame(this.stepActive());
-                if (this.adventurer.health >= this.adventurer.maxHealth) {
-                    messageUpdates('game-update','Fully healed!');
-                    return;    
-                }
+                cancelAnimationFrame(this.activeFrame);
                 if (adventurer.health < adventurer.maxHealth) {
                     requestAnimationFrame(this.stepRest);
                     return;
