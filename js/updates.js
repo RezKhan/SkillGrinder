@@ -54,6 +54,7 @@ function mageUnlocks() {
 
 function enemyUnlocks() {
     if (enemy.enemyType[0].killedCount >= 10) { // unlock the rat
+        enemy.enemyType[0].level=2
         enemy.enemyType[1].unlocked = true;
     }
 }

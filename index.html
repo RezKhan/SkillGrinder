@@ -19,32 +19,26 @@
                     <div class="job-container">
                         <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
                             <button :class="[starterjob.name, starterjob.active ? 'job-active':'job-info-container']" :id="starterjob.name" @click="setJob(jobindex)">
-                                <ul>
-                                    <li><h4>{{ starterjob.name }}</h4></li>
-                                    <li>Level: {{ starterjob.level }}</li>
-                                    <li>Rank: {{ starterjob.rank }}</li>
-                                    <li>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</li>
-                                </ul>
+                                    <div style="font-weight: bold">{{ starterjob.name }}</div>
+                                    <div>Level: {{ starterjob.level }}</div>
+                                    <div>Rank: {{ starterjob.rank }}</div>
+                                    <div>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</div>
                             </button>
                         </template>
                         <div class="divbreak"></div>
                         <template v-for="(midjob, jobindex) in midJobs" :key="jobindex">  
-                            <ul>
-                                <li>{{ midJob.name }}</li>
-                                <li>Level: {{ midJob.level }}</li>
-                                <li>Rank: {{ midJob.rank }}</li>
-                            </ul>
+                                <div>{{ midJob.name }}</div>
+                                <div>Level: {{ midJob.level }}</div>
+                                <div>Rank: {{ midJob.rank }}</div>
                         </template>
                     </div>
                     <div class="skill-container">
                         <template v-for="(abilities, spellId) in activeJob.abilities" :key="spellId">
                             <button :class="[abilities.name, 'skill-info-container']" :id="abilities.name" :disabled=!abilities.unlocked @click="setActiveSkill(spellId)">
-                                <ul>
-                                    <li>{{ abilities.name }}</li>
-                                    <li>Level: {{abilities.level}}</li>
-                                    <li>Rank: {{abilities.rank}}</li>
-                                    <li>XP: {{abilities.experience}} / {{abilities.nextLevel}}</li>
-                                </ul>
+                                    <div>{{ abilities.name }}</div>
+                                    <div>Level: {{abilities.level}}</div>
+                                    <div>Rank: {{abilities.rank}}</div>
+                                    <div>XP: {{abilities.experience}} / {{abilities.nextLevel}}</div>
                             </button>
                         </template>
                         <div class="divbreak"></div>
@@ -62,13 +56,16 @@
                     </div>
                 </div>
                 <div class="enemies">
+                    <div class="areaInfo">
+                        <div class="prevLvl"><button>Prev</button></div>
+                        <div class="currentLvl"></div>
+                        <div class="nextLvl"><button>Next</button></div>
+                    </div>
                     <div>Total enemy kills: {{enemy.killedCount}}</div>
-                    <ul>
-                        <li><h4>{{currentEnemy.name}}</h4></li>
-                        <li>Level: {{currentEnemy.level}}</li>
-                        <li>Rank: {{currentEnemy.rank}}</li>
-                        <li>Total {{currentEnemy.name}} kills: {{currentEnemy.killedCount}}</li>
-                    </ul>
+                        <div><h4>{{currentEnemy.name}}</h4></div>
+                        <div>Level: {{currentEnemy.level}}</div>
+                        <div>Rank: {{currentEnemy.rank}}</div>
+                        <div>Total {{currentEnemy.name}} kills: {{currentEnemy.killedCount}}</div>
                     <div class="divbreak"></div>
                     <div class="enemy-bars">
                         <div class="enemyskill" v-if="enemy.castProgress>0">{{currentEnemySkill.name}}</div>

@@ -12,9 +12,10 @@ body {
     font-size: 12px;    
 }  
 
-ul {
+button {
     list-style-type: none;
     padding: 0;
+    margin: 0;
     color: #ffffff;
 }
 
@@ -58,7 +59,7 @@ ul {
 }
  
 .job-active {
-    width: 120px;
+    width: 20%;
     cursor: pointer;
     border-radius: 10px;
     border: 1px solid #1daf00;
@@ -66,7 +67,7 @@ ul {
 }
 
 .job-info-container {
-    width: 120px;
+    width: 20%;
     cursor: pointer;
     border-radius: 10px;
     border: 1px solid #524a38;
@@ -94,7 +95,6 @@ ul {
     cursor: default;
     background-color: #7e7e92;
 }
-
 
 .divbreak {
     flex-basis: 100%;
@@ -147,4 +147,11 @@ ul {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.areaInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
 }
