@@ -15,21 +15,21 @@
                 <h3>grind skills to grind different skills</h3>
             </div>
             <div class="main-container">
-                <div class="player">
+                <div class="adventurer-container">
                     <div class="job-container">
                         <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
                             <button :class="[starterjob.name, starterjob.active ? 'job-active':'job-info-container']" :id="starterjob.name" @click="setJob(jobindex)">
-                                    <div style="font-weight: bold">{{ starterjob.name }}</div>
-                                    <div>Level: {{ starterjob.level }}</div>
-                                    <div>Rank: {{ starterjob.rank }}</div>
-                                    <div>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</div>
+                                <div style="font-weight: bold">{{ starterjob.name }}</div>
+                                <div>Level: {{ starterjob.level }}</div>
+                                <div>Rank: {{ starterjob.rank }}</div>
+                                <div>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</div>
                             </button>
                         </template>
                         <div class="divbreak"></div>
                         <template v-for="(midjob, jobindex) in midJobs" :key="jobindex">  
-                                <div>{{ midJob.name }}</div>
-                                <div>Level: {{ midJob.level }}</div>
-                                <div>Rank: {{ midJob.rank }}</div>
+                            <div>{{ midJob.name }}</div>
+                            <div>Level: {{ midJob.level }}</div>
+                            <div>Rank: {{ midJob.rank }}</div>
                         </template>
                     </div>
                     <div class="skill-container">
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="enemies">
+                <div class="enemies-container">
                     <div class="areaInfo">
                         <div class="prevLvl"><button>Prev</button></div>
                         <div class="currentLvl"></div>
@@ -81,6 +81,21 @@
                                 <span class="progress-bar-text">{{enemy.castProgress.toFixed(1)}} / {{currentEnemySkill.castTime}}</span>
                             </div>
                         </div>
+                </div>
+                <div class="message-container">
+                    <div style="font-weight: bold; text-align: center;">
+                        Updates
+                    </div>
+                    <div class="message-updates">
+                        <ul>
+                            <template v-for="(messages, index) in adventurerMessages" :key="index">
+                                <li :class="messages.messageType">{{messages.messageBody}}</li>
+                            </template>
+                            <!-- <template  v-for="(messages, index) in adventurerMessages" :key="index">
+                                <li :class="{messages.messageType"> </li>
+                            </template>
+                        -->
+                        </ul>
                     </div>
                 </div>
             </div>

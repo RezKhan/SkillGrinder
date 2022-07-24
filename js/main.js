@@ -5,6 +5,7 @@ const skg = createApp({
         return {
             adventurer: adventurer,
             enemy: enemy,
+            adventurerMessages: adventurerMessages,
 
             currentJob: adventurer.job[0],                         
             currentSkill: adventurer.job[0].abilities[0], 
@@ -32,7 +33,6 @@ const skg = createApp({
                     this.adventurer.job[i].active = false;
                     this.adventurer.job[i].abilities.forEach((element) => {
                         element.active = false;
-                        // console.log(adventurer.job[i].name, element.name, element.active);
                     })
                 } else {
                     this.adventurer.job[i].active = true;
@@ -40,9 +40,7 @@ const skg = createApp({
                     this.currentJob = adventurer.job[i]; 
                 }
             }
-            styleRoot = document.querySelector(':root');
-            styleRoot.style.setProperty('--fill-start', adventurer.job[jobIndex].startBar);
-            styleRoot.style.setProperty('--fill-end', adventurer.job[jobIndex].endBar);            
+            setAbilityColors(jobIndex);    
         },
         
         setActiveSkill(spellId) {
@@ -68,7 +66,9 @@ const skg = createApp({
             if (this.adventurerCastPercentage > 99.5) { // change this to a watcher
                 this.adventurerCastPercentage =0;
                 this.adventurer.castProgress=0;
-                this.enemy.health -= adventurerDamageTurn();                
+                aDmg = adventurerDamageTurn()
+                this.enemy.health -= aDmg;                
+                messageUpdates('enemy-combat-update', ''.concat(this.currentEnemy.name, ' used ' , this.currentEnemySkill.name, ' on adventurer for ', aDmg));
             }
             this.lastSkill=this.currentSkill; // don't think I'm using this anymore
         },
@@ -105,7 +105,6 @@ const skg = createApp({
                 this.enemySkillIndex = 0
             }
             this.currentEnemySkill = this.currentEnemy.abilities[this.currentEnemy.castSequence[this.enemySkillIndex]]
-            console.log(this.enemySkillIndex);
             this.enemySkillIndex++;
         }, 
         
@@ -116,7 +115,9 @@ const skg = createApp({
                 this.enemy.castProgress = 0;
                 this.enemyCastPercentage = 0;
                 this.setEnemySkill();
-                this.adventurer.health -= enemyDamageTurn();
+                eDmg = enemyDamageTurn();
+                this.adventurer.health -= eDmg;
+                messageUpdates('adventurer-combat-update', ''.concat('adventurer used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', eDmg));
             }
         },
 
@@ -145,8 +146,7 @@ const skg = createApp({
             this.lastExecutionMS = now;
             this.fillPlayerHealth(deltaMs)
 
-            if (adventurer.health >= adventurer.maxHealth) {  // TODO: Move this to it's own function
-                console.log('Healed'); 
+            if (this.adventurer.health >= this.adventurer.maxHealth) {  // TODO: Move this to it's own function
                 cancelAnimationFrame(this.stepRest);
                 if (this.autoRestart == true) {
                     this.currentSkill.active = true;
@@ -161,7 +161,7 @@ const skg = createApp({
     watch: {
         'enemy.health': function(hVal) {          // TODO: this works now, but the below is horrible. Change it to something that doesn't suck.
             if (hVal <= 0) {
-                console.log('Killed the enemy!');
+                messageUpdates('game-update','Killed the enemy!');
                 cancelAnimationFrame(this.activeFrame);
 
                 this.currentSkill.active = false;
@@ -183,12 +183,10 @@ const skg = createApp({
         },
 
         'currentSkill.active': function(csActive) {
-            console.log('currentSkill.active is', csActive);
             if (csActive == false) {
-                console.log('Current skill is not active!')
                 cancelAnimationFrame(this.stepActive());
                 if (this.adventurer.health >= this.adventurer.maxHealth) {
-                    console.log('Fully healed!');
+                    messageUpdates('game-update','Fully healed!');
                     return;    
                 }
                 if (adventurer.health < adventurer.maxHealth) {
@@ -200,10 +198,8 @@ const skg = createApp({
     },
 
     computed: {
-        starterJobs: function() {  
-            styleRoot = document.querySelector(':root');
-            styleRoot.style.setProperty('--fill-start', adventurer.job[0].startBar);
-            styleRoot.style.setProperty('--fill-end', adventurer.job[0].endBar);
+        starterJobs: function() {
+            setAbilityColors(0)
             return adventurer.job.filter((job) => (job.tier == 0));         // Vue 3
         },
         midJobs: function() {

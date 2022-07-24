@@ -20,7 +20,8 @@ button {
 }
 
 #skg {
-    width: 700px;
+    width: 900px;
+    min-width: 750px;
     margin: auto;
 
 }
@@ -33,14 +34,14 @@ button {
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.player {
-    width: 70%;
-    border: 1px solid white;
+.adventurer-container {
+    width: 45%;
+    border: 1px solid #ffffff;
     border-radius: 10px;
     padding: 10px;
 }
 
-.enemies {
+.enemies-container {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -49,6 +50,17 @@ button {
     border-radius: 10px;
     padding: 10px;
     text-align: center;
+}
+
+.message-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    border: 1px solid #dad5ad;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .job-container {
@@ -81,6 +93,7 @@ button {
 
 .skill-info-container {
     margin: auto;
+    height: 80;
     width: 20%;
     padding: 5px;
     cursor: pointer;
@@ -149,9 +162,33 @@ button {
     transform: translate(-50%, -50%);
 }
 
+.message-updates {
+    position: relative;
+    text-align: left;
+    margin-left: -10%;
+    height: 90%;
+    overflow: hidden;
+    overflow: -moz-hidden-unscrollable;
+}
+
+li {
+    list-style: none;
+}
+
+.adventurer-combat-update{
+    color: #91cf3f;
+}
+
+.enemy-combat-update {
+    color: #cf3f3f;
+}
+
+.game-update {
+    color: #b9a755;
+}
+
 .areaInfo {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
 }

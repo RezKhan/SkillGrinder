@@ -18,8 +18,27 @@ function adventurerDamageTurn() {
     return result;
 }
 
+function setAbilityColors(index) {
+    styleRoot = document.querySelector(':root');
+    styleRoot.style.setProperty('--fill-start', adventurer.job[index].startBar);
+    styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);      
+}
+
 function levelUp(levelObj) {    // compounding to get health increases
     console.log(levelObj.level);
+}
+
+function messageUpdates (mtype, mbody) {
+    console.log(mtype, mbody);
+
+    const tObj = {
+        messageType: mtype,
+        messageBody: mbody,
+    }
+    adventurerMessages.push(tObj)
+    if (adventurerMessages.length > 5) {
+        adventurerMessages.shift()
+    }
 }
 
 function rankToCoefficient(rank, modifier) {
