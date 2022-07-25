@@ -15,7 +15,7 @@ const enemyType = [
     {
         name: 'Puppet',
         level: 1,
-        experience: 20,
+        experience: 50,
         rank: 'F',
         healthMod: 0.8,
         tier: 0,

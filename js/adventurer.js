@@ -1,10 +1,15 @@
 const adventurer = {
+    name: 'Adventurer',
     job: [],
     level: 1,
     rank: "F",
     health: 100,
     maxHealth: 100,
-    power: 10, 
+    constHealth: 100,
+    experience: 0,
+    nextLevel: 100,
+    power: 10,
+    constPower: 10,
     speed: 1,
     castProgress: 0.0,
 };

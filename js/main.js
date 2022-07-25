@@ -3,6 +3,7 @@ const { createApp } = Vue;
 const skg = createApp({
     data() {
         return {
+            gameVersion: 0.1,           // use this later for save file stuff
             adventurer: adventurer,
             enemy: enemy,
             adventurerMessages: adventurerMessages,
@@ -22,12 +23,13 @@ const skg = createApp({
             activeFrame: null,
             restFrame: null,
 
-            autoRestart: false,
+            autoRestart: true,
         }
     },
         
     methods: {
-        setJob(jobIndex) {                              
+        setJob(jobIndex) {      
+            this.lastJob = this.currentJob;                        
             for (i=0; i<adventurer.job.length; i++) {
                 if (i != jobIndex) {
                     this.adventurer.job[i].active = false;
@@ -63,9 +65,9 @@ const skg = createApp({
         fillPlayerBar(deltaMs) {
             this.adventurerCastPercentage += (deltaMs / (this.currentSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
             this.adventurer.castProgress += deltaMs/1000;
-            if (this.adventurerCastPercentage > 99.5) { // change this to a watcher
-                this.adventurerCastPercentage =0;
-                this.adventurer.castProgress=0;
+            if (this.adventurerCastPercentage > 100) { // change this to a watcher
+                this.adventurerCastPercentage = 0;
+                this.adventurer.castProgres = 0;
                 aDmg = adventurerDamageTurn()
                 this.enemy.health -= aDmg;                
                 messageUpdates('enemy-combat-update', ''.concat(this.currentEnemy.name, ' used ' , this.currentEnemySkill.name, ' on adventurer for ', aDmg));
@@ -81,11 +83,13 @@ const skg = createApp({
             if (levelModifier == null) {
                 levelModifier = 1
             }
-            levelObj.experience += (this.currentEnemy.experience * levelModifier);
+            levelObj.experience += Math.round(this.currentEnemy.experience * levelModifier);
             if (levelObj.experience >= levelObj.nextLevel) {
+                console.log('About to level up!', levelObj.name);
                 levelObj.level++;
+                // Math.round(levelObj.nextLevel *= 1.5);
+                levelUp(levelObj);
                 levelObj.experience -= levelObj.nextLevel;
-                Math.round(levelObj.nextLevel *= 1.5);
             }
             checkUnlocks();
         },
@@ -111,13 +115,13 @@ const skg = createApp({
         fillEnemyBar (deltaMs) {
             this.enemyCastPercentage += (deltaMs / (this.currentEnemySkill.castTime*10));
             this.enemy.castProgress += deltaMs/1000;
-            if (this.enemyCastPercentage > 99.9) {
+            if (this.enemyCastPercentage > 100) {
                 this.enemy.castProgress = 0;
                 this.enemyCastPercentage = 0;
                 this.setEnemySkill();
                 eDmg = enemyDamageTurn();
                 this.adventurer.health -= eDmg;
-                messageUpdates('adventurer-combat-update', ''.concat('adventurer used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', eDmg));
+                messageUpdates('adventurer-combat-update', ''.concat('You used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', eDmg));
             }
         },
 
@@ -171,7 +175,7 @@ const skg = createApp({
                 this.enemyCastPercentage = 0;
 
                 this.getXp(this.currentSkill);
-                this.getXp(this.currentJob, 0.1);
+                this.getXp(this.currentJob, 0.25);
                 if (this.currentEnemy.level < 10) {
                     this.getXp(this.adventurer, 0.1);
                 } else {
@@ -179,6 +183,13 @@ const skg = createApp({
                 }
                 this.setEnemy();
                 return;
+            }
+        },
+
+        'adventurer.health': function(hVal) {
+            if (hVal <= 0) {
+                    messageUpdates('game-update','You have died...');
+                    cancelAnimationFrame(this.activeFrame);
             }
         },
 
@@ -196,7 +207,7 @@ const skg = createApp({
     computed: {
         starterJobs: function() {
             setAbilityColors(0)
-            return adventurer.job.filter((job) => (job.tier == 0));         // Vue 3
+            return adventurer.job.filter((job) => (job.tier == 0));
         },
         midJobs: function() {
             return adventurer.job.filter((job) => ((job.tier == 1) && job.unlocked == true));

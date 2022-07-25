@@ -24,8 +24,23 @@ function setAbilityColors(index) {
     styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);      
 }
 
-function levelUp(levelObj) {    // compounding to get health increases
-    console.log(levelObj.level);
+function levelUp(lObj) {    // compounding to get level increases for health/power
+    if (lObj.hasOwnProperty('maxHealth')) {
+        levelLoop(lObj, 'maxHealth', 'constHealth')
+    }
+    if (lObj.hasOwnProperty('power')) {
+        levelLoop(lObj, 'power', 'constPower')
+    }
+
+    function levelLoop(lObj, objProp, baseProp) {
+        if (Object.prototype.hasOwnProperty.call(lObj, objProp) == true) {
+            lObj[objProp] = lObj[baseProp]; // reset to base value then compound
+            for (let i = 0; i < lObj.level; i++) {
+                Math.round(lObj[objProp] *= 1.1);
+            }
+            console.log('Updating ', lObj.name, 'prop: ', objProp, 'to new value');
+        }
+    }
 }
 
 function messageUpdates (mtype, mbody) {
@@ -34,9 +49,11 @@ function messageUpdates (mtype, mbody) {
         messageBody: mbody,
     }
     adventurerMessages.push(tObj)
-    if (adventurerMessages.length > 5) {
+    if (adventurerMessages.length > 10) {
         adventurerMessages.shift()
     }
+    let msgUpdDiv = document.getElementsByClassName('message-updates');
+    msgUpdDiv.scrollTop = msgUpdDiv.scrollHeight;
 }
 
 function rankToCoefficient(rank, modifier) {
