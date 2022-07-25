@@ -6,7 +6,8 @@ const skg = createApp({
             gameVersion: 0.1,           // use this later for save file stuff
             adventurer: adventurer,
             enemy: enemy,
-            adventurerMessages: adventurerMessages,
+            combatMessages: combatMessages,
+            storyMessages: storyMessages,
 
             currentJob: adventurer.job[0],                         
             currentSkill: adventurer.job[0].abilities[0], 
@@ -46,7 +47,9 @@ const skg = createApp({
         },
         
         setActiveSkill(spellId) {
-            fakeXP = 0;
+            if (this.activeFrame != null) {
+                cancelAnimationFrame(this.activeFrame);
+            }
             this.adventurerCastPercentage=0;
             tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
             this.currentSkill = tempJob[0].abilities[spellId];
@@ -67,10 +70,10 @@ const skg = createApp({
             this.adventurer.castProgress += deltaMs/1000;
             if (this.adventurerCastPercentage > 100) { // change this to a watcher
                 this.adventurerCastPercentage = 0;
-                this.adventurer.castProgres = 0;
+                this.adventurer.castProgress = 0;
                 aDmg = adventurerDamageTurn()
-                this.enemy.health -= aDmg;                
-                messageUpdates('enemy-combat-update', ''.concat(this.currentEnemy.name, ' used ' , this.currentEnemySkill.name, ' on adventurer for ', aDmg));
+                this.enemy.health -= aDmg;
+                messageUpdates(combatMessages, 'adventurer-combat-update', ''.concat('You used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', aDmg));            
             }
             this.lastSkill=this.currentSkill; // don't think I'm using this anymore
         },
@@ -85,9 +88,7 @@ const skg = createApp({
             }
             levelObj.experience += Math.round(this.currentEnemy.experience * levelModifier);
             if (levelObj.experience >= levelObj.nextLevel) {
-                console.log('About to level up!', levelObj.name);
                 levelObj.level++;
-                // Math.round(levelObj.nextLevel *= 1.5);
                 levelUp(levelObj);
                 levelObj.experience -= levelObj.nextLevel;
             }
@@ -101,7 +102,7 @@ const skg = createApp({
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;
             this.enemy.health = enemy.maxHealth;
-            this.enemySkillIndex=0;
+            this.enemySkillIndex = 0;
         }, 
 
         setEnemySkill() {
@@ -121,7 +122,7 @@ const skg = createApp({
                 this.setEnemySkill();
                 eDmg = enemyDamageTurn();
                 this.adventurer.health -= eDmg;
-                messageUpdates('adventurer-combat-update', ''.concat('You used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', eDmg));
+                messageUpdates(combatMessages, 'enemy-combat-update', ''.concat(this.currentEnemy.name, ' used ' , this.currentEnemySkill.name, ' on adventurer for ', eDmg));
             }
         },
 
@@ -165,7 +166,7 @@ const skg = createApp({
     watch: {
         'enemy.health': function(hVal) {          // TODO: this works now, but the below is horrible. Change it to something that doesn't suck.
             if (hVal <= 0) {
-                messageUpdates('game-update','Killed the enemy!');
+                messageUpdates(combatMessages, 'game-update','Killed the enemy!');
                 cancelAnimationFrame(this.activeFrame);
 
                 this.currentSkill.active = false;
@@ -188,8 +189,11 @@ const skg = createApp({
 
         'adventurer.health': function(hVal) {
             if (hVal <= 0) {
-                    messageUpdates('game-update','You have died...');
+                    messageUpdates(combatMessages, 'game-update','You have died...');
                     cancelAnimationFrame(this.activeFrame);
+
+                    this.currentSkill.active = false;
+                    this.adventurer.health = 0;
             }
         },
 

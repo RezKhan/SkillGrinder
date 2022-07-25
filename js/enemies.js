@@ -15,7 +15,7 @@ const enemyType = [
     {
         name: 'Puppet',
         level: 1,
-        experience: 50,
+        experience: 20,
         rank: 'F',
         healthMod: 0.8,
         tier: 0,
@@ -94,4 +94,25 @@ const ratAbility = [
 
 ratAbility.forEach(element => {
     enemy.enemyType[1].abilities.push(element)
+});
+
+const batAbility = [
+    {
+        name: "Bite",
+        coefficient: 0.85,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Screech",
+        coefficient: 0.9,
+        rank: "F",
+        castTime: 2.5,
+        level: 1,
+    },
+];
+
+batAbility.forEach(element => {
+    enemy.enemyType[2].abilities.push(element)
 });

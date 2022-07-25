@@ -316,17 +316,3 @@ mageAbility.forEach(element => {
     adventurer.job[3].abilities.push(element)
 });
 
-adventurerMessages = [
-    {
-        messageType: 'game-update',
-        messageBody: 'Welcome to Skill Grinder',
-    },
-    {
-        messageType: 'game-update',
-        messageBody: 'I am learning javascript',
-    },
-    {
-        messageType: 'game-update',
-        messageBody: 'Please forgive any jank',
-    },
-];

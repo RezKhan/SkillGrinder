@@ -83,15 +83,29 @@
                 </div>
                 <div class="divbreak"></div>
                 <div class="message-container">
-                    <div style="font-weight: bold;">
-                        Updates
-                    </div>
-                    <div class="message-updates" id="message-updates">
-                        <ul>
-                            <template v-for="(messages, index) in adventurerMessages" :key="index">
-                                <li :class="messages.messageType">{{messages.messageBody}}</li>
-                            </template>
-                        </ul>
+                    <div class="combatmessage-container">
+                        <div style="font-weight: bold;">
+                            Combat Log
+                        </div>
+                        <div class="combat-updates">
+                            <ul>
+                                <template v-for="(messages, index) in combatMessages" :key="index">
+                                    <li :class="messages.messageType">{{messages.messageBody}}</li>
+                                </template>
+                            </ul>
+                        </div>
+                        </div>
+                    <div class="storymessage-container">
+                        <div style="font-weight: bold;">
+                            Story
+                        </div>
+                        <div class="story-updates">
+                            <ul>
+                                <template v-for="(messages, index) in storyMessages" :key="index">
+                                    <li :class="messages.messageType">{{messages.messageBody}}</li>
+                                </template>
+                            </ul>
+                        </div>
                     </div>
                 </div>    
             </div>
