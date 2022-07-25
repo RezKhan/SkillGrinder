@@ -19,9 +19,9 @@ function adventurerDamageTurn() {
 }
 
 function setAbilityColors(index) {
-    styleRoot = document.querySelector(':root');
-    styleRoot.style.setProperty('--fill-start', adventurer.job[index].startBar);
-    styleRoot.style.setProperty('--fill-end', adventurer.job[index].endBar);      
+    let styleAbilities = document.querySelector(':root');
+    styleAbilities.style.setProperty('--fill-start', adventurer.job[index].startBar);
+    styleAbilities.style.setProperty('--fill-end', adventurer.job[index].endBar);      
 }
 
 function levelUp(lObj) {    // compounding to get level increases for health/power
@@ -31,14 +31,17 @@ function levelUp(lObj) {    // compounding to get level increases for health/pow
     if (lObj.hasOwnProperty('power')) {
         levelLoop(lObj, 'power', 'constPower')
     }
+    if (lObj.hasOwnProperty('nextLevel')) {
+        levelLoop(lObj, 'nextLevel', 'constExp')
+    }
 
     function levelLoop(lObj, objProp, baseProp) {
         if (Object.prototype.hasOwnProperty.call(lObj, objProp) == true) {
             lObj[objProp] = lObj[baseProp]; // reset to base value then compound
-            for (let i = 0; i < lObj.level; i++) {
+            for (let i = 1; i < lObj.level; i++) {
                 Math.round(lObj[objProp] *= 1.1);
             }
-            console.log('Updating ', lObj.name, 'prop: ', objProp, 'to new value');
+            messageUpdates(storyMessages, 'story-update', (lObj.name + ' feels stronger ... '));
         }
     }
 }
@@ -71,8 +74,9 @@ function rankToCoefficient(rank, modifier) {
 }
 
 function joblessUnlocks() {
-    if (adventurer.job[0].abilities[0].level >= 3) { // unlock kick
+    if (adventurer.job[0].abilities[0].level >= 3 &&  !adventurer.job[0].abilities[1].unlocked) { // unlock kick
         adventurer.job[0].abilities[1].unlocked = true;
+        messageUpdates(storyMessages, 'story-update', ('You have unlocked ' + adventurer.job[0].abilities[1].name));
     }
     if (adventurer.job[0].abilities[1].level >= 3) {
         adventurer.job[0].abilities[2].unlocked = true;
@@ -99,7 +103,7 @@ function enemyUnlocks() {
         enemy.enemyType[1].unlocked = true;
         messageUpdates(storyMessages, 'story-update', 'a Rat enters the area...')
     }
-    if ((enemy.enemyType[1].killedCount >= 10) && enemy.enemyType[2].unlocked) { // unlock the rat
+    if ((enemy.enemyType[1].killedCount >= 10) && !enemy.enemyType[2].unlocked) { // unlock the rat
         enemy.enemyType[2].unlocked = true;
         messageUpdates(storyMessages, 'story-update', 'a Bat has flown in...')
     }
