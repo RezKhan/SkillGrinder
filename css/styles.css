@@ -29,6 +29,17 @@ button {
 .toptext {
     text-align: center;
 }
+
+.adventurer-exp {
+    display: flex;
+    background: linear-gradient(to right, #741c6c, #2a89f5);
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
 .main-container {
     display: flex;
     flex-wrap: wrap;
@@ -56,7 +67,7 @@ button {
     position: relative;
     display: flex;
     width: 100%;
-    height: 200px;
+    height: 180px;
     border: 1px solid #dad5ad;
     border-radius: 10px;
     padding: 10px;
@@ -74,16 +85,16 @@ button {
     width: 20%;
     cursor: pointer;
     border-radius: 10px;
-    border: 1px solid #1daf00;
-    background-color: #43b32d;
+    border: 1px solid #6c589e;
+    background-color: #483577;
 }
 
 .job-info-container {
     width: 20%;
     cursor: pointer;
     border-radius: 10px;
-    border: 1px solid #524a38;
-    background-color: #9baa91;
+    border: 1px solid #3e3852;
+    background-color: #9c91aa;
 }
 .skill-container {
     display: flex; 
@@ -170,21 +181,21 @@ button {
 
 .combat-updates {
     position: relative;
-    height: 180px;
+    height: 160px;
     bottom: 0;
     text-align: left;
     overflow: scroll;
 }
 
-.storymessage-container {
+.game-updatemessage-container {
     width: 40%;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.story-updates {
+.game-updates {
     position: relative;
-    height: 180px;
+    height: 160px;
     bottom: 0;
     text-align: left;
     overflow: scroll;
