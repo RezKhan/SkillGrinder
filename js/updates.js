@@ -43,17 +43,19 @@ function levelUp(lObj) {    // compounding to get level increases for health/pow
     }
 }
 
-function messageUpdates (mtype, mbody) {
+function messageUpdates(mObj, mtype, mbody) {
     const tObj = {
         messageType: mtype,
         messageBody: mbody,
     }
-    adventurerMessages.push(tObj)
-    if (adventurerMessages.length > 10) {
-        adventurerMessages.shift()
+    mObj.push(tObj)
+    if (combatMessages.length > 10) {
+        combatMessages.shift()
     }
-    let msgUpdDiv = document.getElementsByClassName('message-updates');
-    msgUpdDiv.scrollTop = msgUpdDiv.scrollHeight;
+    let cbtUpdDiv = document.getElementsByClassName('combat-updates');
+    cbtUpdDiv.scrollTop = cbtUpdDiv.scrollHeight;
+    let strUpdDiv = document.getElementsByClassName('story-updates');
+    strUpdDiv.scrollTop = strUpdDiv.scrollHeight;
 }
 
 function rankToCoefficient(rank, modifier) {
@@ -72,6 +74,12 @@ function joblessUnlocks() {
     if (adventurer.job[0].abilities[0].level >= 3) { // unlock kick
         adventurer.job[0].abilities[1].unlocked = true;
     }
+    if (adventurer.job[0].abilities[1].level >= 3) {
+        adventurer.job[0].abilities[2].unlocked = true;
+    }
+    if (adventurer.job[0].abilities[2].level >= 3) {
+        adventurer.job[0].abilities[3].unlocked = true;
+    }
 }
 
 function warriorUnlocks() {
@@ -87,9 +95,13 @@ function mageUnlocks() {
 }
 
 function enemyUnlocks() {
-    if (enemy.enemyType[0].killedCount >= 10) { // unlock the rat
-        enemy.enemyType[0].level=2
+    if ((enemy.enemyType[0].killedCount >= 10) && !enemy.enemyType[1].unlocked) { // unlock the rat
         enemy.enemyType[1].unlocked = true;
+        messageUpdates(storyMessages, 'story-update', 'a Rat enters the area...')
+    }
+    if ((enemy.enemyType[1].killedCount >= 10) && enemy.enemyType[2].unlocked) { // unlock the rat
+        enemy.enemyType[2].unlocked = true;
+        messageUpdates(storyMessages, 'story-update', 'a Bat has flown in...')
     }
 }
 
@@ -98,6 +110,24 @@ function checkUnlocks() {
 
     enemyUnlocks();
 }
+
+let combatMessages = [
+    {
+        messageType: 'game-update',
+        messageBody: 'Welcome to Skill Grinder',
+    },
+    {
+        messageType: 'game-update',
+        messageBody: 'I am learning javascript, please forgive any jank',
+    },
+];
+
+let storyMessages = [
+    {
+        messageType: 'story-update',
+        messageBody: 'You have awakened with little memory of who you are or what you were doing...',
+    },
+];
 
 // Zpecs thing, use this when I need something more robust, probably when gear is in place
 // function zspecsDamage() {
