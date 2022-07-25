@@ -31,7 +31,7 @@ const skg = createApp({
     methods: {
         setJob(jobIndex) {      
             this.lastJob = this.currentJob;                        
-            for (i=0; i<adventurer.job.length; i++) {
+            for (let i=0; i<adventurer.job.length; i++) {
                 if (i != jobIndex) {
                     this.adventurer.job[i].active = false;
                     this.adventurer.job[i].abilities.forEach((element) => {
@@ -39,7 +39,7 @@ const skg = createApp({
                     })
                 } else {
                     this.adventurer.job[i].active = true;
-                    this.adventurer.job[i].abilities.active = false;
+                    this.adventurer.job[i].abilities[0].active = false;
                     this.currentJob = adventurer.job[i]; 
                 }
             }
@@ -55,7 +55,7 @@ const skg = createApp({
             this.currentSkill = tempJob[0].abilities[spellId];
             this.currentSkill.active = !this.currentSkill.active;
 
-            for (n=0; n<tempJob[0].abilities.length; n++) {
+            for (let n=0; n<tempJob[0].abilities.length; n++) {
                 if (n != spellId) {
                     tempJob[0].abilities[n].active = false;
                 } 
@@ -89,8 +89,8 @@ const skg = createApp({
             levelObj.experience += Math.round(this.currentEnemy.experience * levelModifier);
             if (levelObj.experience >= levelObj.nextLevel) {
                 levelObj.level++;
-                levelUp(levelObj);
                 levelObj.experience -= levelObj.nextLevel;
+                levelUp(levelObj);
             }
             checkUnlocks();
         },
@@ -141,9 +141,8 @@ const skg = createApp({
                 this.lastExecutionMS = now;
                 this.fillPlayerBar(deltaMs);
                 this.fillEnemyBar(deltaMs);
+                this.activeFrame = requestAnimationFrame(this.stepActive);
             }
-
-            this.activeFrame = requestAnimationFrame(this.stepActive);
         },
 
         stepRest(now) {
@@ -190,9 +189,8 @@ const skg = createApp({
         'adventurer.health': function(hVal) {
             if (hVal <= 0) {
                     messageUpdates(combatMessages, 'game-update','You have died...');
-                    cancelAnimationFrame(this.activeFrame);
-
                     this.currentSkill.active = false;
+                    cancelAnimationFrame(this.activeFrame);
                     this.adventurer.health = 0;
             }
         },

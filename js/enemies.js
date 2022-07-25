@@ -48,6 +48,18 @@ const enemyType = [
         abilities: [],
         castSequence: [0,0,1],
     },
+    {
+        name: 'Slime Drop',
+        level: 1,
+        experience: 35,
+        rank: 'F',
+        healthMod: 1,
+        tier: 0,
+        unlocked: false,
+        killedCount: 0,
+        abilities: [],
+        castSequence: [0,0,1],
+    },
 ];
 
 enemyType.forEach(element => {
@@ -108,7 +120,7 @@ const batAbility = [
         name: "Screech",
         coefficient: 0.9,
         rank: "F",
-        castTime: 2.5,
+        castTime: 2,
         level: 1,
     },
 ];

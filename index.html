@@ -13,16 +13,18 @@
         <div id="skg">
             <div class="toptext">
                 <h2>Skill Grinder</h3>
-                <h3>grind skills to grind different skills</h3>
+                <h3>grind skills then grind different skills</h3>
             </div>
             <div class="main-container">
                 <div class="adventurer-container">
+                    <div class="adventurer-exp">| Rank: {{adventurer.rank}} | Level: {{adventurer.level}} | XP: {{adventurer.experience.toFixed(0)}} / {{adventurer.nextLevel.toFixed(0)}} |</div>
+                    <div class="divbreak"></div>
                     <div class="job-container">
                         <template v-for="(starterjob, jobindex) in starterJobs" :key="jobindex">  
                             <button :class="[starterjob.name, starterjob.active ? 'job-active':'job-info-container']" :id="starterjob.name" @click="setJob(jobindex)">
                                 <div style="font-weight: bold">{{ starterjob.name }} : {{ starterjob.rank }}</div>
                                 <div>Level: {{ starterjob.level }}</div>
-                                <div>XP: {{starterjob.experience}} / {{starterjob.nextLevel}}</div>
+                                <div>XP: {{starterjob.experience.toFixed(0)}} / {{starterjob.nextLevel.toFixed(0)}}</div>
                             </button>
                         </template>
                         <div class="divbreak"></div>
@@ -37,7 +39,7 @@
                             <button :class="[abilities.name, 'skill-info-container']" :id="abilities.name" :disabled=!abilities.unlocked @click="setActiveSkill(spellId)">
                                 <div>{{ abilities.name }} : {{abilities.rank}}</div>
                                 <div>Level: {{abilities.level}}</div>
-                                <div>XP: {{abilities.experience}} / {{abilities.nextLevel}}</div>
+                                <div>XP: {{abilities.experience.toFixed(0)}} / {{abilities.nextLevel.toFixed(0)}}</div>
                             </button>
                         </template>
                         <div class="divbreak"></div>
@@ -95,11 +97,11 @@
                             </ul>
                         </div>
                         </div>
-                    <div class="storymessage-container">
+                    <div class="game-updatemessage-container">
                         <div style="font-weight: bold;">
-                            Story
+                            Updates
                         </div>
-                        <div class="story-updates">
+                        <div class="game-updates">
                             <ul>
                                 <template v-for="(messages, index) in storyMessages" :key="index">
                                     <li :class="messages.messageType">{{messages.messageBody}}</li>
