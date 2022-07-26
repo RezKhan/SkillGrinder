@@ -180,6 +180,6 @@ const enemyArea = [
         description: 'A field at night',
         minLevel: 2,
         maxLevel: 4,
-        available: ['Rat', 'Bat', 'Slime Drop']
+        available: ['Rat', 'Bat', 'Oozling']
     }
 ];

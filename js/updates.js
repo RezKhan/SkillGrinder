@@ -102,12 +102,12 @@ function mageUnlocks() {
 function enemyUnlocks() {
     if ((enemy.enemyType[0].killedCount >= 10) && !enemy.enemyType[1].unlocked) { // unlock the rat
         enemy.enemyType[1].unlocked = true;
-        messageUpdates(storyMessages, 'story-update', 'a Rat enters the area...')
+        messageUpdates(storyMessages, 'story-update', 'a Rat has wandered in, where did it come from?')
         enemyArea[0].nextArea = true;
     }
     if ((enemy.enemyType[1].killedCount >= 10) && !enemy.enemyType[2].unlocked) { // unlock the rat
         enemy.enemyType[2].unlocked = true;
-        messageUpdates(storyMessages, 'story-update', 'a Bat has flown in...')
+        messageUpdates(storyMessages, 'story-update', 'a Bat around your head...')
     }
 }
 
