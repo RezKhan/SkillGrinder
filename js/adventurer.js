@@ -115,8 +115,8 @@ var joblessAbility = [
         castTime: 1.5,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     }, 
     {
         spellId: 2,
@@ -128,8 +128,8 @@ var joblessAbility = [
         castTime: 2,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 3,
@@ -141,8 +141,8 @@ var joblessAbility = [
         castTime: 2.5,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 4,
@@ -154,8 +154,8 @@ var joblessAbility = [
         castTime: 3,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
 ];
 
@@ -174,8 +174,8 @@ var warriorAbility = [
         castTime: 2,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     }, 
     {
         spellId: 6,
@@ -187,8 +187,8 @@ var warriorAbility = [
         castTime: 3,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 7,
@@ -200,8 +200,8 @@ var warriorAbility = [
         castTime: 3,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {   spellId: 8,
         name: "Whirlwind",
@@ -212,8 +212,8 @@ var warriorAbility = [
         castTime: 3,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
 ];
 
@@ -232,8 +232,8 @@ var rogueAbility = [
         castTime: 2,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 10,
@@ -245,8 +245,8 @@ var rogueAbility = [
         castTime: 4,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 11,
@@ -258,8 +258,8 @@ var rogueAbility = [
         castTime: 1.5,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 12,
@@ -271,8 +271,8 @@ var rogueAbility = [
         castTime: 4,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
 ];
 
@@ -291,8 +291,8 @@ var mageAbility = [
         castTime: 3.5,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     }, 
     {
         spellId: 14,
@@ -304,8 +304,8 @@ var mageAbility = [
         castTime: 4,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 15,
@@ -317,8 +317,8 @@ var mageAbility = [
         castTime: 1.5,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
     {
         spellId: 16,
@@ -330,8 +330,8 @@ var mageAbility = [
         castTime: 4,
         level: 1,
         experience: 0,
-            nextLevel: 100,
-    constExp: 100,
+        nextLevel: 100,
+        constExp: 100,
     },
 ];
 
