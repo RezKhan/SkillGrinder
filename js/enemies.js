@@ -170,7 +170,7 @@ const enemyArea = [
         nextArea: false,
         description: 'Practice Room',
         minLevel: 1,
-        maxLevel: 3,
+        maxLevel: 2,
         available: ['Puppet', 'Rat']
     },
     {
@@ -178,8 +178,8 @@ const enemyArea = [
         prevArea: true,
         nextArea: false,
         description: 'A field at night',
-        minLevel: 1,
-        maxLevel: 3,
+        minLevel: 2,
+        maxLevel: 4,
         available: ['Rat', 'Bat', 'Slime Drop']
     }
 ];

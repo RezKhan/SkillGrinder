@@ -107,9 +107,12 @@ const skg = createApp({
 
         setEnemy() {
             let availableEnemy = enemy.enemyType.filter((enemyType) => ((enemyType.unlocked == true) &&  (this.currentArea.available.includes(enemyType.name))));
-            console.log(availableEnemy.filter((enemyType) => (this.currentArea.available.includes(enemyType.name))));
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)];
             this.currentEnemySkill = this.currentEnemy.abilities[0];
+
+            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minlevel + 1) + this.currentArea.minlevel)
+            this.currentEnemy.level = tempEnemyLevel;
+
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;
             this.enemy.health = enemy.maxHealth;
@@ -121,6 +124,7 @@ const skg = createApp({
                 this.enemySkillIndex = 0
             }
             this.currentEnemySkill = this.currentEnemy.abilities[this.currentEnemy.castSequence[this.enemySkillIndex]]
+            this.currentEnemySkill.level = this.currentEnemy.level;
             this.enemySkillIndex++;
         }, 
         
@@ -199,10 +203,10 @@ const skg = createApp({
 
         'adventurer.health': function(hVal) {
             if (hVal <= 0) {
-                    messageUpdates(combatMessages, 'game-update','You have died...');
                     this.currentSkill.active = false;
                     cancelAnimationFrame(this.activeFrame);
                     this.adventurer.health = 0;
+                    messageUpdates(combatMessages, 'game-update','You have died...');
             }
         },
 
