@@ -6,6 +6,7 @@ const skg = createApp({
             gameVersion: 0.1,           // use this later for save file stuff
             adventurer: adventurer,
             enemy: enemy,
+            enemyArea: enemyArea,
             combatMessages: combatMessages,
             storyMessages: storyMessages,
 
@@ -14,6 +15,8 @@ const skg = createApp({
             lastJob: adventurer.job[0], 
             lastSkill: adventurer.job[0].abilities[0],
             adventurerCastPercentage: 0,
+
+            currentArea: enemyArea[0],
 
             currentEnemy: enemy.enemyType[0],
             currentEnemySkill: enemy.enemyType[0].abilities[0],
@@ -55,14 +58,21 @@ const skg = createApp({
             this.currentSkill = tempJob[0].abilities[spellId];
             this.currentSkill.active = !this.currentSkill.active;
 
-            for (let n=0; n<tempJob[0].abilities.length; n++) {
-                if (n != spellId) {
-                    tempJob[0].abilities[n].active = false;
+            tempJob[0].abilities.forEach((element, index) => {
+                if (index != spellId) {
+                    element.active = false;
                 } 
-            }
+            });
+
             this.adventurer.castProgress=0;
             this.lastExecutionMS = null,
             this.stepActive();
+        },
+
+        setCurrentArea(byNum) {
+            let tempIndex = this.enemyArea.indexOf(this.currentArea);
+            tempIndex += byNum;
+            this.currentArea = this.enemyArea[tempIndex];
         },
 
         fillPlayerBar(deltaMs) {
@@ -96,8 +106,9 @@ const skg = createApp({
         },
 
         setEnemy() {
-            availableEnemy = enemy.enemyType.filter((enemyType) => (enemyType.unlocked == true))
-            this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)]
+            let availableEnemy = enemy.enemyType.filter((enemyType) => ((enemyType.unlocked == true) &&  (this.currentArea.available.includes(enemyType.name))));
+            console.log(availableEnemy.filter((enemyType) => (this.currentArea.available.includes(enemyType.name))));
+            this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)];
             this.currentEnemySkill = this.currentEnemy.abilities[0];
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;

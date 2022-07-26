@@ -49,10 +49,22 @@ const enemyType = [
         castSequence: [0,0,1],
     },
     {
-        name: 'Slime Drop',
+        name: 'Oozling',
         level: 1,
         experience: 35,
         rank: 'F',
+        healthMod: 1,
+        tier: 0,
+        unlocked: false,
+        killedCount: 0,
+        abilities: [],
+        castSequence: [0,0,1],
+    },
+    {
+        name: 'Slime',
+        level: 1,
+        experience: 40,
+        rank: 'E',
         healthMod: 1,
         tier: 0,
         unlocked: false,
@@ -128,3 +140,46 @@ const batAbility = [
 batAbility.forEach(element => {
     enemy.enemyType[2].abilities.push(element)
 });
+
+
+const oozlingAbility = [
+    {
+        name: "Bad Breath",
+        coefficient: 0.85,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Gaze",
+        coefficient: 0.9,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+];
+
+oozlingAbility.forEach(element => {
+    enemy.enemyType[3].abilities.push(element)
+});
+
+const enemyArea = [
+    {
+        areaType: 'normal',
+        prevArea: false,
+        nextArea: false,
+        description: 'Practice Room',
+        minLevel: 1,
+        maxLevel: 3,
+        available: ['Puppet', 'Rat']
+    },
+    {
+        areaType: 'normal',
+        prevArea: true,
+        nextArea: false,
+        description: 'A field at night',
+        minLevel: 1,
+        maxLevel: 3,
+        available: ['Rat', 'Bat', 'Slime Drop']
+    }
+];
