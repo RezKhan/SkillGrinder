@@ -1,7 +1,7 @@
 :root {
     --fill-start: #4e0000;
     --fill-end: #888888;
-    --player-health: #3bb403;
+    --player-health: hsl(100, 100%, 30%);
     --test: #ceab13;
 }
 
@@ -46,7 +46,7 @@ button {
     justify-content: space-between;
 }
 .adventurer-container {
-    width: 70%;
+    width: 65%;
     border: 1px solid #ffffff;
     border-radius: 10px;
     padding: 10px;
@@ -56,7 +56,7 @@ button {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 25%;
     border: 1px solid #800101;
     border-radius: 10px;
     padding: 10px;
@@ -173,6 +173,19 @@ button {
     transform: translate(-50%, -50%);
 }
 
+.area-info {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-level{
+    width: 60%;
+}
+
 .combatmessage-container {
     width: 55%;
     flex-direction: column;
@@ -218,8 +231,3 @@ ul {
     color: #b9a755;
 }
 
-.areaInfo {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}

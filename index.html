@@ -51,16 +51,16 @@
                         <div class="divbreak"></div>
                         <div :class="[currentJob.name, currentSkill.name, 'progress-bar-shell']">
                             <div :class="[currentJob.name, currentSkill.name, currentSkill.active ? 'adventurer-cast-progress-inner':'']" :style="{'width': adventurerCastPercentage + '%'}">
-                                <span class="progress-bar-text">{{adventurer.castProgress.toFixed(1)}} / {{currentSkill.castTime}}</span>
+                                <span class="progress-bar-text">{{currentSkill.name}} {{adventurer.castProgress.toFixed(1)}} / {{currentSkill.castTime}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="enemies-container">
-                    <div class="areaInfo" >
-                        <div class="prevLvl" style="color: #000000;" disabled=""><button>Prev</button></div>
-                        <div class="currentLvl"></div>
-                        <div class="nextLvl"style="color: #000000;" disabled><button>Next</button></div>
+                    <div class="area-info" >
+                        <div class="prevLvl" style="color: #000000;"><button :disabled="!currentArea.prevArea" @click="setCurrentArea(-1)">&lt;&lt;</button></div>
+                        <div class="currentLvl">{{currentArea.description}}</div>
+                        <div class="nextLvl"style="color: #000000;"><button :disabled="!currentArea.nextArea" @click="setCurrentArea(1)">&gt;&gt;</button></div>
                     </div>
                     <div>Total enemy kills: {{enemy.killedCount}}</div>
                         <div><h4>{{currentEnemy.name}}</h4></div>

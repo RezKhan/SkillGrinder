@@ -18,6 +18,18 @@ function adventurerDamageTurn() {
     return result;
 }
 
+function rankToCoefficient(rank, modifier) {
+    if (modifier==null) {
+        modifier = 1;
+    }
+    switch (rank) {
+        case 'F':
+            return (0.4*modifier);
+        case 'E': 
+            return (0.5*modifier);
+    }
+}
+
 function setAbilityColors(index) {
     let styleAbilities = document.querySelector(':root');
     styleAbilities.style.setProperty('--fill-start', adventurer.job[index].startBar);
@@ -25,13 +37,13 @@ function setAbilityColors(index) {
 }
 
 function levelUp(lObj) {    // compounding to get level increases for health/power
-    if (lObj.hasOwnProperty('maxHealth')) {
+    if (lObj.hasOwnProperty('maxHealth') && lObj.hasOwnProperty('constHealth')) {
         levelLoop(lObj, 'maxHealth', 'constHealth')
     }
-    if (lObj.hasOwnProperty('power')) {
+    if (lObj.hasOwnProperty('power')  && lObj.hasOwnProperty('constPower')) {
         levelLoop(lObj, 'power', 'constPower')
     }
-    if (lObj.hasOwnProperty('nextLevel')) {
+    if (lObj.hasOwnProperty('nextLevel') && lObj.hasOwnProperty('constExp')) {
         levelLoop(lObj, 'nextLevel', 'constExp')
     }
 
@@ -61,17 +73,6 @@ function messageUpdates(mObj, mtype, mbody) {
     strUpdDiv.scrollTop = strUpdDiv.scrollHeight;
 }
 
-function rankToCoefficient(rank, modifier) {
-    if (modifier==null) {
-        modifier = 1;
-    }
-    switch (rank) {
-        case 'F':
-            return (0.4*modifier);
-        case 'E': 
-            return (0.5*modifier);
-    }
-}
 
 function joblessUnlocks() {
     if (adventurer.job[0].abilities[0].level >= 3 &&  !adventurer.job[0].abilities[1].unlocked) { // unlock kick
@@ -102,6 +103,7 @@ function enemyUnlocks() {
     if ((enemy.enemyType[0].killedCount >= 10) && !enemy.enemyType[1].unlocked) { // unlock the rat
         enemy.enemyType[1].unlocked = true;
         messageUpdates(storyMessages, 'story-update', 'a Rat enters the area...')
+        enemyArea[0].nextArea = true;
     }
     if ((enemy.enemyType[1].killedCount >= 10) && !enemy.enemyType[2].unlocked) { // unlock the rat
         enemy.enemyType[2].unlocked = true;
