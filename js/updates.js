@@ -53,7 +53,9 @@ function levelUp(lObj) {    // compounding to get level increases for health/pow
             for (let i = 1; i < lObj.level; i++) {
                 Math.round(lObj[objProp] *= 1.1);
             }
-            messageUpdates(gameMessages, 'game-update', (lObj.name + ' feels stronger ... '));
+            if (lObj.name != undefined) {
+                messageUpdates(gameMessages, 'game-update', (lObj.name + ' feels stronger ... '));
+            }
         }
     }
 }

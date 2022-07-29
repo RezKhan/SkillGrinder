@@ -34,6 +34,7 @@
                             <div>Rank: {{ midJob.rank }}</div>
                         </template>
                     </div>
+                    <div class="divbreak"></div>
                     <div class="skill-container">
                         <template v-for="(abilities, spellId) in activeJob.abilities" :key="spellId">
                             <button :class="[abilities.name, 'skill-info-container']" :id="abilities.name" :disabled=!abilities.unlocked @click="setActiveSkill(spellId)">
@@ -73,7 +74,7 @@
                         <div class="divbreak"></div>
                         <div class="progress-bar-shell">
                             <div :class="[currentEnemy.name, 'enemy-health-progress-inner']" :style="{'width': ((enemy.health/enemy.maxHealth)*100) + '%'}">
-                                <span  class="progress-bar-text">{{enemy.health}} / {{enemy.maxHealth}}</span>
+                                <span  class="progress-bar-text">{{enemy.health.toFixed(0)}} / {{enemy.maxHealth.toFixed(0)}}</span>
                             </div>
                         </div>
                         <div class="divbreak"></div>
@@ -103,7 +104,7 @@
                         </div>
                         <div class="game-updates">
                             <ul>
-                                <template v-for="(messages, index) in storyMessages" :key="index">
+                                <template v-for="(messages, index) in gameMessages" :key="index">
                                     <li :class="messages.messageType">{{messages.messageBody}}</li>
                                 </template>
                             </ul>

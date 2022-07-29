@@ -111,8 +111,11 @@ const skg = createApp({
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)];
             this.currentEnemySkill = this.currentEnemy.abilities[0];
 
-            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minLevel - 1) + this.currentArea.minLevel)
+            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minLevel + 1) + this.currentArea.minLevel)
             this.currentEnemy.level = tempEnemyLevel;
+            this.enemy.level = tempEnemyLevel;
+            levelUp(enemy);
+            levelUp(this.currentEnemy);
 
             this.currentEnemyCastPercentage = 0;
             this.enemy.castProgress = 0;
@@ -181,7 +184,7 @@ const skg = createApp({
     watch: {
         'enemy.health': function(hVal) {          // Does this need to be moved to it's own function
             if (hVal <= 0) {
-                messageUpdates(combatMessages, 'general-update','Killed the enemy!');
+                messageUpdates(combatMessages, 'general-update', ('You have defeated ' + this.currentEnemy.name + ' for ' + this.currentEnemy.nextLevel + ' experience'));
                 cancelAnimationFrame(this.activeFrame);
 
                 this.currentSkill.active = false;
