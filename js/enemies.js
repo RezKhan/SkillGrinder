@@ -393,9 +393,6 @@ const enemyAbilityList = [
 ];
 
 enemyType.forEach((element) => {
-    // setEnemyAbility(element);\
-    console.log(element)
-
     let tArr = enemyAbilityList.filter((enemyAbilityList) => element.abilityList.includes(enemyAbilityList.name));
     tArr.forEach((value) => {
         element.abilities.push(value);
