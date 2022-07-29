@@ -8,12 +8,12 @@ const skg = createApp({
             enemy: enemy,
             enemyArea: enemyArea,
             combatMessages: combatMessages,
-            storyMessages: storyMessages,
+            gameMessages: gameMessages,
 
             currentJob: adventurer.job[0],                         
             currentSkill: adventurer.job[0].abilities[0], 
-            lastJob: adventurer.job[0], 
-            lastSkill: adventurer.job[0].abilities[0],
+            // lastJob: adventurer.job[0], 
+            // lastSkill: adventurer.job[0].abilities[0],
             adventurerCastPercentage: 0,
 
             currentArea: enemyArea[0],
@@ -27,7 +27,7 @@ const skg = createApp({
             activeFrame: null,
             restFrame: null,
 
-            autoRestart: true,
+            autoCombat: false,
         }
     },
         
@@ -49,17 +49,17 @@ const skg = createApp({
             setAbilityColors(jobIndex);    
         },
         
-        setActiveSkill(spellId) {
+        setActiveSkill(SkillId) {
             if (this.activeFrame != null) {
                 cancelAnimationFrame(this.activeFrame);
             }
             this.adventurerCastPercentage=0;
-            tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
-            this.currentSkill = tempJob[0].abilities[spellId];
+            let tempJob = adventurer.job.filter((job) => (job.name == this.currentJob.name));
+            this.currentSkill = tempJob[0].abilities[SkillId];
             this.currentSkill.active = !this.currentSkill.active;
 
             tempJob[0].abilities.forEach((element, index) => {
-                if (index != spellId) {
+                if (index != SkillId) {
                     element.active = false;
                 } 
             });
@@ -76,7 +76,7 @@ const skg = createApp({
         },
 
         fillPlayerBar(deltaMs) {
-            this.adventurerCastPercentage += (deltaMs / (this.currentSkill.castTime*10)); // Why 10? Why not 1000? Why does this work? It shouldn't.
+            this.adventurerCastPercentage += (deltaMs / (this.currentSkill.castTime*10)); // <-- x10 turns this into a percentage calculation
             this.adventurer.castProgress += deltaMs/1000;
             if (this.adventurerCastPercentage > 100) { // change this to a watcher
                 this.adventurerCastPercentage = 0;
@@ -85,7 +85,7 @@ const skg = createApp({
                 this.enemy.health -= aDmg;
                 messageUpdates(combatMessages, 'adventurer-combat-update', ''.concat('You used ' , this.currentSkill.name, ' on ', this.currentEnemy.name, ' for ', aDmg));            
             }
-            this.lastSkill=this.currentSkill; // don't think I'm using this anymore
+            /// this.lastSkill=this.currentSkill; // don't think I'm using this anymore
         },
 
         fillPlayerHealth(deltaMs) {
@@ -96,13 +96,13 @@ const skg = createApp({
             if (levelModifier == null) {
                 levelModifier = 1
             }
-            levelObj.experience += Math.round(this.currentEnemy.experience * levelModifier);
+            levelObj.experience += Math.round(this.currentEnemy.nextLevel * levelModifier);
             if (levelObj.experience >= levelObj.nextLevel) {
                 levelObj.level++;
                 levelObj.experience -= levelObj.nextLevel;
                 levelUp(levelObj);
             }
-            checkUnlocks();
+            checkUnlocks(this.currentJob);
         },
 
         setEnemy() {
@@ -110,7 +110,8 @@ const skg = createApp({
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)];
             this.currentEnemySkill = this.currentEnemy.abilities[0];
 
-            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minlevel + 1) + this.currentArea.minlevel)
+            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minLevel + 1) + this.currentArea.minLevel)
+            
             this.currentEnemy.level = tempEnemyLevel;
 
             this.currentEnemyCastPercentage = 0;
@@ -167,7 +168,7 @@ const skg = createApp({
 
             if (this.adventurer.health >= this.adventurer.maxHealth) {  // TODO: Move this to it's own function
                 cancelAnimationFrame(this.stepRest);
-                if (this.autoRestart == true) {
+                if (this.autoCombat == true) {
                     this.currentSkill.active = true;
                     this.stepActive();
                 }
@@ -178,9 +179,9 @@ const skg = createApp({
     },
 
     watch: {
-        'enemy.health': function(hVal) {          // TODO: this works now, but the below is horrible. Change it to something that doesn't suck.
+        'enemy.health': function(hVal) {          // Does this need to be moved to it's own function
             if (hVal <= 0) {
-                messageUpdates(combatMessages, 'game-update','Killed the enemy!');
+                messageUpdates(combatMessages, 'general-update','Killed the enemy!');
                 cancelAnimationFrame(this.activeFrame);
 
                 this.currentSkill.active = false;
@@ -206,7 +207,7 @@ const skg = createApp({
                     this.currentSkill.active = false;
                     cancelAnimationFrame(this.activeFrame);
                     this.adventurer.health = 0;
-                    messageUpdates(combatMessages, 'game-update','You have died...');
+                    messageUpdates(combatMessages, 'general-update','You have retreated..');
             }
         },
 

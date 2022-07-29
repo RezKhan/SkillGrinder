@@ -339,3 +339,7 @@ mageAbility.forEach(element => {
     adventurer.job[3].abilities.push(element)
 });
 
+itemTypes = {
+
+};
+

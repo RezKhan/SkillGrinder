@@ -53,7 +53,7 @@ function levelUp(lObj) {    // compounding to get level increases for health/pow
             for (let i = 1; i < lObj.level; i++) {
                 Math.round(lObj[objProp] *= 1.1);
             }
-            messageUpdates(storyMessages, 'story-update', (lObj.name + ' feels stronger ... '));
+            messageUpdates(gameMessages, 'game-update', (lObj.name + ' feels stronger ... '));
         }
     }
 }
@@ -69,68 +69,58 @@ function messageUpdates(mObj, mtype, mbody) {
     }
     let cbtUpdDiv = document.getElementsByClassName('combat-updates');
     cbtUpdDiv.scrollTop = cbtUpdDiv.scrollHeight;
-    let strUpdDiv = document.getElementsByClassName('story-updates');
+    let strUpdDiv = document.getElementsByClassName('game-updates');
     strUpdDiv.scrollTop = strUpdDiv.scrollHeight;
 }
 
 
-function joblessUnlocks() {
-    if (adventurer.job[0].abilities[0].level >= 3 &&  !adventurer.job[0].abilities[1].unlocked) { // unlock kick
-        adventurer.job[0].abilities[1].unlocked = true;
-        messageUpdates(storyMessages, 'story-update', ('You have unlocked ' + adventurer.job[0].abilities[1].name));
+function jobUnlocks(job) {
+    if (job.abilities[0].level >= 3 &&  !job.abilities[1].unlocked) { 
+        job.abilities[1].unlocked = true;
+        messageUpdates(gameMessages, 'game-update', ('You have unlocked ' + job.abilities[1].name));
     }
-    if (adventurer.job[0].abilities[1].level >= 3) {
-        adventurer.job[0].abilities[2].unlocked = true;
+    if (job.abilities[1].level >= 3 &&  !job.abilities[2].unlocked) { 
+        job.abilities[2].unlocked = true;
+        messageUpdates(gameMessages, 'game-update', ('You have unlocked ' + job.abilities[2].name));
     }
-    if (adventurer.job[0].abilities[2].level >= 3) {
-        adventurer.job[0].abilities[3].unlocked = true;
+    if (job.abilities[2].level >= 3 &&  !job.abilities[3].unlocked) { 
+        job.abilities[3].unlocked = true;
+        messageUpdates(gameMessages, 'game-update', ('You have unlocked ' + job.abilities[3].name));
     }
-}
-
-function warriorUnlocks() {
-
-}
-
-function rogueUnlocks() {
-
-}
-
-function mageUnlocks() {
-
 }
 
 function enemyUnlocks() {
     if ((enemy.enemyType[0].killedCount >= 10) && !enemy.enemyType[1].unlocked) { // unlock the rat
         enemy.enemyType[1].unlocked = true;
-        messageUpdates(storyMessages, 'story-update', 'a Rat enters the area...')
+        messageUpdates(gameMessages, 'game-update', 'a Rat enters the area...')
         enemyArea[0].nextArea = true;
     }
     if ((enemy.enemyType[1].killedCount >= 10) && !enemy.enemyType[2].unlocked) { // unlock the rat
         enemy.enemyType[2].unlocked = true;
-        messageUpdates(storyMessages, 'story-update', 'a Bat has flown in...')
+        messageUpdates(gameMessages, 'game-update', 'a Bat has flown in...')
     }
 }
 
-function checkUnlocks() {
-    joblessUnlocks();
+function checkUnlocks(job) {
+    jobUnlocks(job);
 
     enemyUnlocks();
 }
 
 let combatMessages = [
     {
-        messageType: 'game-update',
+        messageType: 'general-update',
         messageBody: 'Welcome to Skill Grinder',
     },
     {
-        messageType: 'game-update',
+        messageType: 'general-update',
         messageBody: 'I am learning javascript, please forgive any jank',
     },
 ];
 
-let storyMessages = [
+let gameMessages = [
     {
-        messageType: 'story-update',
+        messageType: 'game-update',
         messageBody: 'You have awakened with little memory of who you are or what you were doing...',
     },
 ];
