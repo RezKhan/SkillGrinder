@@ -73,6 +73,7 @@ const skg = createApp({
             let tempIndex = this.enemyArea.indexOf(this.currentArea);
             tempIndex += byNum;
             this.currentArea = this.enemyArea[tempIndex];
+            this.setEnemy();
         },
 
         fillPlayerBar(deltaMs) {
@@ -110,8 +111,7 @@ const skg = createApp({
             this.currentEnemy = availableEnemy[Math.floor(Math.random()*availableEnemy.length)];
             this.currentEnemySkill = this.currentEnemy.abilities[0];
 
-            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minLevel + 1) + this.currentArea.minLevel)
-            
+            let tempEnemyLevel = Math.floor(Math.random() * (this.currentArea.maxLevel - this.currentArea.minLevel - 1) + this.currentArea.minLevel)
             this.currentEnemy.level = tempEnemyLevel;
 
             this.currentEnemyCastPercentage = 0;
