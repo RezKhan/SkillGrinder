@@ -13,7 +13,7 @@ const enemy = {
 
 const enemyFamilies = ['Beast', 'Reptile', 'Flying', 
 'Insect', 'Plant', 'Humanoid', 
-'Construct', 'Undead', 'Aberation', 'Demon'];
+'Construct', 'Undead', 'Abberation', 'Demon'];
 
 const enemyType = [
     {
@@ -27,6 +27,7 @@ const enemyType = [
         tier: 0,
         unlocked: true,
         killedCount: 0,
+        abilityList: ['Swing', 'Bonk'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -41,6 +42,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Scratch', 'Bite'],
         abilities: [],
         castSequence: [0,1],
     },
@@ -55,12 +57,13 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Bite', 'Screech'],
         abilities: [],
         castSequence: [0,0,1],
     },
     {
         name: 'Oozling',
-        enemyFamily: 'Aberation',
+        enemyFamily: 'Abberation',
         level: 1,
         nextLevel: 35,
         constExp: 35,
@@ -69,20 +72,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
-        abilities: [],
-        castSequence: [0,0,1],
-    },
-    {
-        name: 'Slime',
-        enemyFamily: 'Aberation',
-        level: 1,
-        nextLevel: 40,
-        constExp: 40,
-        rank: 'E',
-        healthMod: 1,
-        tier: 0,
-        unlocked: false,
-        killedCount: 0,
+        abilityList: ['Bad Breath', 'Gaze'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -97,6 +87,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Bite', 'Claw'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -112,6 +103,7 @@ const enemyType = [
         unlocked: false,
         killedCount: 0,
         abilities: [],
+        abilityList: ['Sting', 'Bite'],
         castSequence: [0,0,1],
     },
     {
@@ -125,6 +117,22 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Bite', 'Spit'],
+        abilities: [],
+        castSequence: [0,0,1],
+    },
+    {
+        name: 'Slime',
+        enemyFamily: 'Abberation',
+        level: 1,
+        nextLevel: 40,
+        constExp: 40,
+        rank: 'E',
+        healthMod: 1,
+        tier: 0,
+        unlocked: false,
+        killedCount: 0,
+        abilityList: ['Bad Breath', 'Bonk'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -139,6 +147,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Charge', 'Bite'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -153,6 +162,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Tongue', 'Claw'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -167,8 +177,9 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Mangle', 'Bite'],
         abilities: [],
-        castSequence: [0,0,1],
+        castSequence: [0,1],
     },
     {
         name: 'Goblin',
@@ -181,6 +192,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Swing', 'Stab'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -195,6 +207,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Swing', 'Stab', 'Bonk'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -209,6 +222,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Gaze', 'Bite'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -223,6 +237,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Sting', 'Claw'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -237,8 +252,9 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Stab'],
         abilities: [],
-        castSequence: [0,0,1],
+        castSequence: [0,],
     },
     {
         name: 'Flying Eye',
@@ -251,6 +267,7 @@ const enemyType = [
         tier: 0,
         unlocked: false,
         killedCount: 0,
+        abilityList: ['Gaze', 'Mangle'],
         abilities: [],
         castSequence: [0,0,1],
     },
@@ -260,9 +277,10 @@ enemyType.forEach(element => {
     enemy.enemyType.push(element)
 });
 
-const puppetAbility = [
+const enemyAbilityList = [
     {
         name: "Swing",
+        abilityFamily: 'Construct',
         coefficient: 0.7,
         rank: "F",
         castTime: 2,
@@ -270,20 +288,15 @@ const puppetAbility = [
     },
     {
         name: "Bonk",
+        abilityFamily: 'Construct',
         coefficient: 0.75,
         rank: "F",
         castTime: 2.5,
         level: 1,
     },
-];
-
-puppetAbility.forEach(element => {
-    enemy.enemyType[0].abilities.push(element)
-});
-
-const ratAbility = [
     {
         name: "Scratch",
+        abilityFamily: 'Beast',
         coefficient: 0.75,
         rank: "F",
         castTime: 2,
@@ -291,42 +304,71 @@ const ratAbility = [
     },
     {
         name: "Bite",
+        abilityFamily: 'Beast',
         coefficient: 0.8,
         rank: "F",
         castTime: 2.5,
         level: 1,
     },
-];
-
-ratAbility.forEach(element => {
-    enemy.enemyType[1].abilities.push(element)
-});
-
-const batAbility = [
     {
-        name: "Bite",
+        name: "Charge",
+        abilityFamily: 'Beast',
+        coefficient: 0.8,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Claw",
+        abilityFamily: 'Beast',
         coefficient: 0.85,
         rank: "F",
         castTime: 2,
         level: 1,
     },
     {
-        name: "Screech",
+        name: "Mangle",
+        abilityFamily: 'Beast',
+        coefficient: 0.9,
+        rank: "F",
+        castTime: 1.5,
+        level: 1,
+    },
+    {
+        name: "Stab",
+        abilityFamily: 'Humanoid',
         coefficient: 0.9,
         rank: "F",
         castTime: 2,
         level: 1,
     },
-];
-
-batAbility.forEach(element => {
-    enemy.enemyType[2].abilities.push(element)
-});
-
-
-const oozlingAbility = [
+    {
+        name: "Screech",
+        abilityFamily: 'Flying',
+        coefficient: 0.9,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Spit",
+        abilityFamily: 'Reptile',
+        coefficient: 0.9,
+        rank: "F",
+        castTime: 1.5,
+        level: 1,
+    },
+    {
+        name: "Tongue",
+        abilityFamily: 'Reptile',
+        coefficient: 0.8,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
     {
         name: "Bad Breath",
+        abilityFamily: 'Abberation',
         coefficient: 0.85,
         rank: "F",
         castTime: 2,
@@ -334,15 +376,30 @@ const oozlingAbility = [
     },
     {
         name: "Gaze",
+        abilityFamily: 'Undead',
         coefficient: 0.9,
+        rank: "F",
+        castTime: 2,
+        level: 1,
+    },
+    {
+        name: "Sting",
+        abilityFamily: 'Insect',
+        coefficient: 0.85,
         rank: "F",
         castTime: 2,
         level: 1,
     },
 ];
 
-oozlingAbility.forEach(element => {
-    enemy.enemyType[3].abilities.push(element)
+enemyType.forEach((element) => {
+    // setEnemyAbility(element);\
+    console.log(element)
+
+    let tArr = enemyAbilityList.filter((enemyAbilityList) => element.abilityList.includes(enemyAbilityList.name));
+    tArr.forEach((value) => {
+        element.abilities.push(value);
+    })
 });
 
 const enemyArea = [
@@ -364,63 +421,4 @@ const enemyArea = [
         maxLevel: 4,
         available: ['Rat', 'Bat', 'Oozling']
     }
-];
-
-enemyAbilityList = [
-    {
-        name: "Swing",
-        abilityFamily: 'Construct',
-        coefficient: 0.7,
-        rank: "F",
-        castTime: 2,
-        level: 1,
-    },
-    {
-        name: "Bonk",
-        abilityFamily: 'Construct',
-        coefficient: 0.75,
-        rank: "F",
-        castTime: 2.5,
-        level: 1,
-    },
-    {
-        name: "Scratch",
-        abilityFamily: 'Beast',
-        coefficient: 0.75,
-        rank: "F",
-        castTime: 2,
-        level: 1,
-    },
-    {
-        name: "Bite",
-        abilityFamily: 'Beast',
-        coefficient: 0.8,
-        rank: "F",
-        castTime: 2.5,
-        level: 1,
-    },
-    {
-        name: "Screech",
-        abilityFamily: 'Flying',
-        coefficient: 0.9,
-        rank: "F",
-        castTime: 2,
-        level: 1,
-    },
-    {
-        name: "Bad Breath",
-        abilityFamily: 'Undead',
-        coefficient: 0.85,
-        rank: "F",
-        castTime: 2,
-        level: 1,
-    },
-    {
-        name: "Gaze",
-        abilityFamily: 'Undead',
-        coefficient: 0.9,
-        rank: "F",
-        castTime: 2,
-        level: 1,
-    },
 ];
