@@ -26,7 +26,7 @@ const jobs = [
         tier:0,
         active: true,
         abilities: [],
-        startBar: '#5a3821',                        // BROWNS
+        startBar: '#5a3821',
         endBar: '#8a5938',
     },
     {
@@ -39,7 +39,7 @@ const jobs = [
         tier:0,
         active: false,
         abilities: [],
-        startBar: '#66291e',                        // BROWNISH RED
+        startBar: '#66291e',
         endBar: '#a72610',
     },
     {
@@ -339,7 +339,34 @@ mageAbility.forEach(element => {
     adventurer.job[3].abilities.push(element)
 });
 
-itemTypes = {
+const itemTypes = [
+    {
+        type: 'Weapon', 
+        slot: 'Main Hand',
+        maxStacks: '1',
+    },
+    {
+        type: '2H Weapon', 
+        slot: 'Two Hands',
+        maxStacks: '1',
+    },
+    {
+        type: 'Offhand', 
+        slot: 'Offhand',
+        maxStacks: '1',
+    },
+    {
+        type: 'Consumable', 
+        slot: 'Bag',
+        maxStacks: '20',
+    },
+];
 
-};
-
+const gameItems = [
+    {
+        name: 'Stick',
+        description: 'A stick, weak, brittle, picked up off the ground',
+        power: 2,
+        itemType: {},
+    },
+];
