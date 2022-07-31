@@ -37,7 +37,7 @@
                     <div class="divbreak"></div>
                     <div class="skill-container">
                         <template v-for="(abilities, spellId) in activeJob.abilities" :key="spellId">
-                            <button :class="[abilities.name, 'skill-info-container']" :id="abilities.name" :disabled=!abilities.unlocked @click="setActiveSkill(spellId)">
+                            <button :class="[abilities.name, 'skill-info-container']" :id="(activeJob.name+'-'+abilities.name)" :disabled=!abilities.unlocked @click="setActiveSkill(spellId)">
                                 <div>{{ abilities.name }} : {{abilities.rank}}</div>
                                 <div>Level: {{abilities.level}}</div>
                                 <div>XP: {{abilities.experience.toFixed(0)}} / {{abilities.nextLevel.toFixed(0)}}</div>
